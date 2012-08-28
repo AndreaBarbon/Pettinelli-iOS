@@ -1,0 +1,266 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B84133C115ED35180086C917 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84133C015ED35180086C917 /* UIKit.framework */; };
+		B84133C315ED35180086C917 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84133C215ED35180086C917 /* Foundation.framework */; };
+		B84133C515ED35180086C917 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84133C415ED35180086C917 /* CoreGraphics.framework */; };
+		B84133CB15ED35180086C917 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B84133C915ED35180086C917 /* InfoPlist.strings */; };
+		B84133CD15ED35180086C917 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B84133CC15ED35180086C917 /* main.m */; };
+		B84133D115ED35180086C917 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B84133D015ED35180086C917 /* AppDelegate.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B84133BC15ED35180086C917 /* Pettinelli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pettinelli.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B84133C015ED35180086C917 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B84133C215ED35180086C917 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B84133C415ED35180086C917 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B84133C815ED35180086C917 /* Pettinelli-Info.plist */ = {isa = PBXFileReference; path = "Pettinelli-Info.plist"; sourceTree = "<group>"; };
+		B84133CA15ED35180086C917 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B84133CC15ED35180086C917 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B84133CE15ED35180086C917 /* Pettinelli-Prefix.pch */ = {isa = PBXFileReference; path = "Pettinelli-Prefix.pch"; sourceTree = "<group>"; };
+		B84133CF15ED35180086C917 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		B84133D015ED35180086C917 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B84133B915ED35180086C917 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B84133C115ED35180086C917 /* UIKit.framework in Frameworks */,
+				B84133C315ED35180086C917 /* Foundation.framework in Frameworks */,
+				B84133C515ED35180086C917 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B84133B115ED35180086C917 = {
+			isa = PBXGroup;
+			children = (
+				B84133C615ED35180086C917 /* Pettinelli */,
+				B84133BF15ED35180086C917 /* Frameworks */,
+				B84133BD15ED35180086C917 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B84133BD15ED35180086C917 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B84133BC15ED35180086C917 /* Pettinelli.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B84133BF15ED35180086C917 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B84133C015ED35180086C917 /* UIKit.framework */,
+				B84133C215ED35180086C917 /* Foundation.framework */,
+				B84133C415ED35180086C917 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B84133C615ED35180086C917 /* Pettinelli */ = {
+			isa = PBXGroup;
+			children = (
+				B84133CF15ED35180086C917 /* AppDelegate.h */,
+				B84133D015ED35180086C917 /* AppDelegate.m */,
+				B84133C715ED35180086C917 /* Supporting Files */,
+			);
+			path = Pettinelli;
+			sourceTree = "<group>";
+		};
+		B84133C715ED35180086C917 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B84133C815ED35180086C917 /* Pettinelli-Info.plist */,
+				B84133C915ED35180086C917 /* InfoPlist.strings */,
+				B84133CC15ED35180086C917 /* main.m */,
+				B84133CE15ED35180086C917 /* Pettinelli-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B84133BB15ED35180086C917 /* Pettinelli */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B84133D415ED35180086C917 /* Build configuration list for PBXNativeTarget "Pettinelli" */;
+			buildPhases = (
+				B84133B815ED35180086C917 /* Sources */,
+				B84133B915ED35180086C917 /* Frameworks */,
+				B84133BA15ED35180086C917 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Pettinelli;
+			productName = Pettinelli;
+			productReference = B84133BC15ED35180086C917 /* Pettinelli.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B84133B315ED35180086C917 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "fractalsoft srl";
+			};
+			buildConfigurationList = B84133B615ED35180086C917 /* Build configuration list for PBXProject "Pettinelli" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B84133B115ED35180086C917;
+			productRefGroup = B84133BD15ED35180086C917 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B84133BB15ED35180086C917 /* Pettinelli */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B84133BA15ED35180086C917 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B84133CB15ED35180086C917 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B84133B815ED35180086C917 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B84133CD15ED35180086C917 /* main.m in Sources */,
+				B84133D115ED35180086C917 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B84133C915ED35180086C917 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B84133CA15ED35180086C917 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B84133D215ED35180086C917 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B84133D315ED35180086C917 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B84133D515ED35180086C917 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pettinelli/Pettinelli-Prefix.pch";
+				INFOPLIST_FILE = "Pettinelli/Pettinelli-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B84133D615ED35180086C917 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pettinelli/Pettinelli-Prefix.pch";
+				INFOPLIST_FILE = "Pettinelli/Pettinelli-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B84133B615ED35180086C917 /* Build configuration list for PBXProject "Pettinelli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B84133D215ED35180086C917 /* Debug */,
+				B84133D315ED35180086C917 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B84133D415ED35180086C917 /* Build configuration list for PBXNativeTarget "Pettinelli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B84133D515ED35180086C917 /* Debug */,
+				B84133D615ED35180086C917 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B84133B315ED35180086C917 /* Project object */;
+}
