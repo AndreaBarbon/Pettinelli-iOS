@@ -38,7 +38,7 @@
     dfHuman.locale = loc;
 
         
-    if (url==nil) url = @"http://localhost:3000/posts.json";
+    if (url==nil) url = [NSString stringWithFormat:@"%@/posts.json", HOST];
     
     [self parseJSON];
     
@@ -143,23 +143,29 @@
 
 - (void)parseJSON {
     
+    NSError *error;
+    
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    NSLog(@"%@", error);
     NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
     
-    NSArray *posts_temp = [parser objectWithString:json_string error:nil];
-    items = [[NSMutableArray alloc] initWithCapacity:posts_temp.count];
+    NSArray *items_temp = [parser objectWithString:json_string error:&error];
+    NSLog(@"%@", error);
+    items = [[NSMutableArray alloc] initWithCapacity:items_temp.count];
     
-    for (NSDictionary *post in posts_temp)
+    NSLog(@"Downloaded %d items!", items_temp.count);
+        
+    for (NSDictionary *item in items_temp)
     {
-        [items addObject:[post objectForKey:@"model"]];
+        [items addObject:[item objectForKey:@"model"]];
     }
     
-    for (NSDictionary *post in items)
+    for (NSDictionary *item in items)
     {
-        NSLog(@"%@ - %@", [post objectForKey:@"author"], [post objectForKey:@"title"]);
+        NSLog(@"%@ - %@", [item objectForKey:@"author"], [item objectForKey:@"title"]);
     }
     
 }

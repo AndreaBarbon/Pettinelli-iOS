@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define HOST @"http://pettinelli.herokuapp.com/"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIWindow *window;
