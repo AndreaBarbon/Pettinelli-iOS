@@ -13,9 +13,36 @@
 @synthesize window;
 @synthesize tabBarController;
 
++ (void)loadSound:(NSString*)name format:(NSString*)format reference:(AVAudioPlayer*)sound {
+    
+    NSString *soundPath =[[NSBundle mainBundle] pathForResource:name ofType:format];
+    NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
+    sound = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:nil];
+    sound.volume = 0.3;
+    [sound prepareToPlay];
+    
+    if ([sound respondsToSelector:@selector(setEnableRate:)]) {
+        sound.enableRate = YES;
+        sound.rate = 1.5; 
+    }
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+    // setup session correctly
+    AVAudioSession *audiosession = [AVAudioSession sharedInstance];
+    [audiosession setCategory:AVAudioSessionCategoryPlayback error:nil];
+    OSStatus propertySetError = 0;
+    
+    UInt32 mixingAllow = true;
+    propertySetError = AudioSessionSetProperty ( kAudioSessionProperty_OverrideCategoryMixWithOthers, sizeof (mixingAllow),&mixingAllow);
+    
+    NSError *error = nil;
+    [audiosession setActive:YES error:&error];
+    
+    
+    
     [self.window addSubview:self.tabBarController.view];    
     
     [self.window makeKeyAndVisible];

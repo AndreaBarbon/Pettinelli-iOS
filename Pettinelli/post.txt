@@ -1,0 +1,14 @@
+p {
+	padding:5px; 
+	text-align:justify;
+	} 
+
+img {
+	width:45%%; 
+	margin-left:10px; 
+	float:right; 
+	padding: 5px; 
+	border: 1px solid #cccccc; 
+	background:#F8F8F8; 
+	background:rgba(255, 255, 255, 0.7);
+	}

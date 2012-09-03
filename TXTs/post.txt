@@ -1,0 +1,26 @@
+p {
+	text-align:left;
+	overflow-x:auto
+    margin-top:-20px;
+    max-width:100%; 
+} 
+
+body {	
+	font-size:115%;
+	padding:3%; 
+    width:92%;
+}
+
+img {
+	width:90%;
+    min-height:200px; 
+	height:auto; 
+	margin:5%; 
+	margin-bottom:20px; 
+	margin-top:-10px; 
+	float:right; 
+	padding: 5px; 
+	border: 1px solid #cccccc; 
+	background:#F8F8F8; 
+	background:rgba(255, 255, 255, 0.7);
+}
