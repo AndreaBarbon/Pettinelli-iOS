@@ -45,7 +45,7 @@
 							<object class="IBMKMapView" id="203867813">
 								<reference key="NSNextResponder" ref="214353480"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrameSize">{320, 203}</string>
+								<string key="NSFrameSize">{320, 411}</string>
 								<reference key="NSSuperview" ref="214353480"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="251841543"/>
@@ -176,9 +176,9 @@
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<string key="IBUIText">041.985000</string>
-										<object class="NSColor" key="IBUITextColor" id="553597066">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MC40OTg0MTk5NDM4AA</bytes>
+										<object class="NSColor" key="IBUITextColor" id="1056496819">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MCAwIDAAA</bytes>
 										</object>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">0</int>
@@ -200,7 +200,7 @@
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<string key="IBUIText">www.pettinellisportcenter.it</string>
-										<reference key="IBUITextColor" ref="553597066"/>
+										<reference key="IBUITextColor" ref="1056496819"/>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">0</int>
 										<float key="IBUIMinimumFontSize">10</float>
@@ -221,7 +221,7 @@
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<string key="IBUIText">info@pettinellisportcenter.it</string>
-										<reference key="IBUITextColor" ref="553597066"/>
+										<reference key="IBUITextColor" ref="1056496819"/>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">0</int>
 										<float key="IBUIMinimumFontSize">10</float>
@@ -234,7 +234,6 @@
 										<string key="NSFrame">{{103, 108}, {157, 49}}</string>
 										<reference key="NSSuperview" ref="251841543"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -242,7 +241,7 @@
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<string key="IBUIText">Via Mestrina, 38 30172 Venezia</string>
-										<reference key="IBUITextColor" ref="553597066"/>
+										<reference key="IBUITextColor" ref="1056496819"/>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">0</int>
 										<float key="IBUIMinimumFontSize">10</float>
@@ -287,7 +286,7 @@
 									<object class="IBUIButton" id="468153076">
 										<reference key="NSNextResponder" ref="251841543"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{15, 42}, {245, 37}}</string>
+										<string key="NSFrame">{{15, 50}, {245, 21}}</string>
 										<reference key="NSSuperview" ref="251841543"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1013284776"/>
@@ -308,7 +307,7 @@
 									<object class="IBUIButton" id="696230799">
 										<reference key="NSNextResponder" ref="251841543"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{15, 13}, {245, 37}}</string>
+										<string key="NSFrame">{{15, 21}, {245, 21}}</string>
 										<reference key="NSSuperview" ref="251841543"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="979926869"/>
@@ -329,7 +328,7 @@
 									<object class="IBUIButton" id="169021935">
 										<reference key="NSNextResponder" ref="251841543"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{15, 71}, {245, 37}}</string>
+										<string key="NSFrame">{{15, 79}, {245, 21}}</string>
 										<reference key="NSSuperview" ref="251841543"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="219533417"/>
@@ -355,7 +354,7 @@
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MSAxIDEAA</bytes>
+									<bytes key="NSRGB">MSAxIDEgMC44AA</bytes>
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>

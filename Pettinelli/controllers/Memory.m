@@ -74,7 +74,6 @@
     }
 }
 
-
 - (void)start {
     
     if (CARD_NUM == 4) {
@@ -89,11 +88,11 @@
     moves = 0;
     [movesLabel setText:[NSString stringWithFormat:@"Mosse: %d", moves]];
 
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_queue_t main_queue = dispatch_get_main_queue();
     dispatch_async(main_queue, ^{
         
-        [self parseJSON];
+        [self clean];
+        [self reload];
         
     });
 }
@@ -105,16 +104,20 @@
 
 }
 
-
+- (void)clean {
+    
+    for (Card *card in cards) {
+        [card removeFromSuperview];
+    }
+    [cards removeAllObjects];
+    [flipped_cards removeAllObjects];
+    
+}
 
 - (void)buildCards {
     
     if (cards.count > 0) {
-        for (Card *card in cards) {
-            [card removeFromSuperview];
-        }
-        [cards removeAllObjects];
-        [flipped_cards removeAllObjects];
+        [self clean];
     }
     
     int screen_width = [[UIScreen mainScreen] bounds].size.width;
@@ -202,7 +205,6 @@
         }
     }
     
-    loading = NO;
     if (photos.count>=CARD_NUM*CARD_NUM/2) {
         NSLog(@"Building cards...");
         [self buildCards];
@@ -210,7 +212,8 @@
     } else {
         NSLog(@"Not enough cards: Only %d", photos.count);
     }
-    
+
+    loading = NO;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
         

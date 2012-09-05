@@ -33,6 +33,7 @@
 
 - (void)loadSound:(NSString*)name format:(NSString*)format reference:(AVAudioPlayer*)sound;
 - (NSString*)humanDate:(NSString*)raw;
+- (IBAction)reload;
 
 @end
 

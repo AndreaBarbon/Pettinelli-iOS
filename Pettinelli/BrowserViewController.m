@@ -52,6 +52,7 @@
     }
 
     loading = YES;
+    [MBProgressHUD showHUDAddedTo:self.view animated:TRUE];
         
     if (url==nil) url = [NSString stringWithFormat:@"%@/posts.json", HOST];
     else url = [NSString stringWithFormat:@"%@/%@", HOST, url];
@@ -61,8 +62,9 @@
 
 - (void)sendRequest {
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:TRUE];
+    
 
+    data = nil;
     data    = [[NSMutableData alloc] init];
     
     NSLog(@"Connecting to: %@", url);
@@ -80,7 +82,9 @@
         NSLog(@"Reload!");
 
         [items removeAllObjects];
+        items = nil;
         loading = YES;
+        [MBProgressHUD showHUDAddedTo:self.view animated:TRUE];
         [self sendRequest];
         [tv reloadData];
     }
@@ -107,9 +111,7 @@
         
     } else {
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        //[MBProgressHUD hideHUDForView:self.view animated:TRUE];
         return [items count];
     }
     
@@ -221,6 +223,7 @@
     }
     
     loading = NO;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     
     [tv reloadData];
     
@@ -245,7 +248,11 @@
 - (void)connection:(NSURLConnection *)connection_ didFailWithError:(NSError *)error{
     
     DLog(@"Connection error");
-    [self parseJSON];
+    [NSThread sleepForTimeInterval:2];
+    loading = NO;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+    [self reload];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{  
