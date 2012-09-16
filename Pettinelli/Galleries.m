@@ -39,6 +39,9 @@
     static NSString *CellIdentifier = @"Cell";
 	Cell *cell = (Cell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    DLog(@"Creating cell %d", r);
+
+    
     if (cell == nil) {
         
         NSString *nib;
@@ -66,11 +69,22 @@
     s = [[self.items objectAtIndex:r] objectForKey:@"title"];
     [cell.titleLabel setText:s];
     
-    s = [[[[[[self.items objectAtIndex:r] objectForKey:@"photos"] objectAtIndex:0] objectForKey:@"photo_file"] objectForKey:@"thumb"] objectForKey:@"url"];
+    @try {
+        s = [[[[[[self.items objectAtIndex:r] objectForKey:@"photos"] objectAtIndex:0] objectForKey:@"photo_file"] objectForKey:@"thumb"] objectForKey:@"url"];
+    }
     
-    [cell.imageView setImageWithURL:[NSURL URLWithString:s]
-                   placeholderImage:[UIImage imageNamed:@"Pettinelli.png"]];
+    @catch (NSException *exception) {
+        [cell.imageView setImage:[UIImage imageNamed:@"Pettinelli.png"]];
+        return cell;
+
+    }
+    @finally {
+        [cell.imageView setImageWithURL:[NSURL URLWithString:s]
+                       placeholderImage:[UIImage imageNamed:@"Pettinelli.png"]];
+    }
     
+    DLog(@"Done with cell %d", r);
+
     return cell;
 }
 
@@ -89,19 +103,6 @@
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
     
     
-}
-
-
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 @end

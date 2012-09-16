@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <MessageUI/MessageUI.h>
-
+#import "PettinelliViewController.h"
 
 @class MyAnnotation;
 
-@interface Contacts : UIViewController <MKMapViewDelegate, MFMailComposeViewControllerDelegate> {
+@interface Contacts : PettinelliViewController <MKMapViewDelegate, MFMailComposeViewControllerDelegate> {
     
     IBOutlet MKMapView *map;
     MyAnnotation* myAnnotation1;

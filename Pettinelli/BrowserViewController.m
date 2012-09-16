@@ -30,12 +30,8 @@
 {
     [super viewDidLoad];
     
-    df = [[NSDateFormatter alloc] init];            [df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-    dfHuman = [[NSDateFormatter alloc] init];       [dfHuman setDateFormat:@"dd/MM/yyyy"];
-    NSLocale *loc = [[NSLocale alloc] initWithLocaleIdentifier:@"it"];
-    
-    dfHuman.locale = loc;
-    
+    firstTime = YES;
+    [tv reloadData];
     
     if (!no_reloading) {
         
@@ -50,27 +46,65 @@
         
         self.navigationItem.rightBarButtonItem = flipButton;
     }
-
-    loading = YES;
-    [MBProgressHUD showHUDAddedTo:self.view animated:TRUE];
         
-    if (url==nil) url = [NSString stringWithFormat:@"%@/posts.json", HOST];
-    else url = [NSString stringWithFormat:@"%@/%@", HOST, url];
+    if (url!=nil) {
+        
+        url = [NSString stringWithFormat:@"%@/%@", HOST, url];
+        
+        // allocate a reachability object
+        Reachability* reach = [Reachability reachabilityWithHostname:HOST];
+        
+        // set the blocks 
+        reach.reachableBlock = ^(Reachability*reach)
+        {
+            NSLog(@"REACHABLE!");
+            dispatch_async(dispatch_get_main_queue(), ^{
+
+                connected = YES;
+                if (firstTime) {
+                    
+                    [self reload];
+                    firstTime = NO;
+                }
+            });
+        };
+        
+        reach.unreachableBlock = ^(Reachability*reach)
+        {
+            NSLog(@"UNREACHABLE!");
+            dispatch_async(dispatch_get_main_queue(), ^{
+
+
+                connected = NO;
+                if (firstTime) {
+                    
+                    [self handleOfflineSituation];
+                    firstTime = NO;
+                }
+            });
+        };
+        
+        [reach startNotifier];
+              
+    }
+}
+
+- (void)handleOfflineSituation {
     
-    [self sendRequest];
+    NSLog(@"I'm offline!");
+    [MBProgressHUD hideHUDForView:self.view animated:TRUE];
+
 }
 
 - (void)sendRequest {
     
-    
-
     data = nil;
-    data    = [[NSMutableData alloc] init];
+    data = [[NSMutableData alloc] init];
     
     NSLog(@"Connecting to: %@", url);
     
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-	[NSURLConnection connectionWithRequest:request delegate:self];
+	connectionJSON = [NSURLConnection connectionWithRequest:request delegate:self];
 }
 
 #pragma mark - Table view data source
@@ -85,14 +119,20 @@
         items = nil;
         loading = YES;
         [MBProgressHUD showHUDAddedTo:self.view animated:TRUE];
-        [self sendRequest];
+        
+        if (connected) {
+            [self sendRequest];
+        } else {
+            [self handleOfflineSituation];
+        }
+        
         [tv reloadData];
     }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (loading) {
+    if (loading || firstTime) {
         [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         return 0;
     } else {
@@ -229,34 +269,23 @@
     
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 
 #pragma mark -
 #pragma mark NSURLConnection delegate
 
 - (void)connection:(NSURLConnection *)connection_ didFailWithError:(NSError *)error{
     
-    DLog(@"Connection error");
-    [NSThread sleepForTimeInterval:2];
+    NSLog(@"Connection error");
+    connected = NO;
+    [NSThread sleepForTimeInterval:1];
     loading = NO;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-    [self reload];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{  
 	[data setLength:0];
+    connected = YES;
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data_{ 
@@ -270,28 +299,5 @@
 	
 }
 
-
-#pragma mark -
-#pragma mark TOOLS
-
-- (NSString*)humanDate:(NSString*)raw {
-    
-    return [dfHuman stringFromDate:[df dateFromString:raw]];
-    
-}
-
-- (void)loadSound:(NSString*)name format:(NSString*)format reference:(AVAudioPlayer*)sound {
-    
-    NSString *soundPath =[[NSBundle mainBundle] pathForResource:name ofType:format];
-    NSURL *soundURL = [NSURL fileURLWithPath:soundPath];
-    sound = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:nil];
-    sound.volume = 0.3;
-    [sound prepareToPlay];
-    
-    if ([sound respondsToSelector:@selector(setEnableRate:)]) {
-        sound.enableRate = YES;
-        sound.rate = 1.5; 
-    }
-}
 
 @end

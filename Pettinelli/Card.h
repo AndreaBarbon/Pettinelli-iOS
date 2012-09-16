@@ -13,12 +13,14 @@
 
 @protocol CardProtocol
 
--(void)cardFlipped:(Card*)card;
--(void)cardFlopped:(Card*)card;
+- (void)cardFlipped:    (Card*)card;
+- (void)cardFlopped:    (Card*)card;
 
 @end
 
-@interface Card : UIView <UIGestureRecognizerDelegate> {
+
+
+@interface Card : UIView <UIGestureRecognizerDelegate, NSURLConnectionDelegate> {
     IBOutlet UIView *border;
     IBOutlet UIView *background;  
     IBOutlet UIImageView *imageView; 
@@ -29,11 +31,13 @@
 @property (nonatomic, assign) id<CardProtocol> delegate;
 
 @property(nonatomic,retain) NSString *imageURL;
+@property(nonatomic,retain) NSMutableData *data;
 @property(nonatomic) BOOL flipped;
 @property(nonatomic) BOOL founded;
 
 - (void)flop;
-- (id)initWithFrame:(CGRect)frame url:(NSString*)url;
+- (id)initWithFrame:(CGRect)frame delegate:(id)del;
+- (void)setCardImage:(UIImage*)image url:(NSString*)url;
 
 
 @end

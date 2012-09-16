@@ -77,6 +77,13 @@
 		B859D2CD15F753BC00C19F66 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B859D2C115F753BC00C19F66 /* SBJsonWriter.m */; };
 		B859D2D015F753D900C19F66 /* flip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B859D2CE15F753D900C19F66 /* flip.mp3 */; };
 		B859D2D115F753D900C19F66 /* found.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B859D2CF15F753D900C19F66 /* found.mp3 */; };
+		B873D6B416022896001ACFCE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B873D6B216022896001ACFCE /* Reachability.m */; };
+		B873D6B61602292C001ACFCE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B873D6B51602292B001ACFCE /* SystemConfiguration.framework */; };
+		B87ECC8416020BA6002CDCA3 /* Memory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B87ECC8216020BA6002CDCA3 /* Memory.xcdatamodeld */; };
+		B87ECC8716020D28002CDCA3 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = B87ECC8616020D28002CDCA3 /* Image.m */; };
+		B87ECC8A16020D48002CDCA3 /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = B87ECC8916020D48002CDCA3 /* Record.m */; };
+		B8901A491601EAA500136481 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8901A481601EAA500136481 /* CoreData.framework */; };
+		B896052C1602190A00D1D3AF /* PettinelliViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B896052B1602190A00D1D3AF /* PettinelliViewController.m */; };
 		B8960A0915F110A20032D653 /* Abramo.m in Sources */ = {isa = PBXBuildFile; fileRef = B8960A0815F110A20032D653 /* Abramo.m */; };
 		B8960A0C15F17A4F0032D653 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8960A0A15F17A4F0032D653 /* AudioToolbox.framework */; };
 		B8960A0D15F17A4F0032D653 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8960A0B15F17A4F0032D653 /* CoreAudio.framework */; };
@@ -229,6 +236,17 @@
 		B859D2C115F753BC00C19F66 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		B859D2CE15F753D900C19F66 /* flip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = flip.mp3; path = audio/flip.mp3; sourceTree = "<group>"; };
 		B859D2CF15F753D900C19F66 /* found.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = found.mp3; path = audio/found.mp3; sourceTree = "<group>"; };
+		B873D6B216022896001ACFCE /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		B873D6B316022896001ACFCE /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		B873D6B51602292B001ACFCE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B87ECC8316020BA6002CDCA3 /* Memory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Memory.xcdatamodel; sourceTree = "<group>"; };
+		B87ECC8516020D28002CDCA3 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Image.h; path = DB/Image.h; sourceTree = "<group>"; };
+		B87ECC8616020D28002CDCA3 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Image.m; path = DB/Image.m; sourceTree = "<group>"; };
+		B87ECC8816020D48002CDCA3 /* Record.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Record.h; path = DB/Record.h; sourceTree = "<group>"; };
+		B87ECC8916020D48002CDCA3 /* Record.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Record.m; path = DB/Record.m; sourceTree = "<group>"; };
+		B8901A481601EAA500136481 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B896052A1602190A00D1D3AF /* PettinelliViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PettinelliViewController.h; path = Classes/PettinelliViewController.h; sourceTree = "<group>"; };
+		B896052B1602190A00D1D3AF /* PettinelliViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PettinelliViewController.m; path = Classes/PettinelliViewController.m; sourceTree = "<group>"; };
 		B8960A0715F110A20032D653 /* Abramo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Abramo.h; sourceTree = "<group>"; };
 		B8960A0815F110A20032D653 /* Abramo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Abramo.m; sourceTree = "<group>"; };
 		B8960A0A15F17A4F0032D653 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -258,6 +276,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B873D6B61602292C001ACFCE /* SystemConfiguration.framework in Frameworks */,
+				B8901A491601EAA500136481 /* CoreData.framework in Frameworks */,
 				B8565B8D15F4B76200A4BFE3 /* MessageUI.framework in Frameworks */,
 				B80A437815F413D60006205F /* MapKit.framework in Frameworks */,
 				B8960A1215F17C170032D653 /* AVFoundation.framework in Frameworks */,
@@ -294,6 +314,8 @@
 		B84133BF15ED35180086C917 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B873D6B51602292B001ACFCE /* SystemConfiguration.framework */,
+				B8901A481601EAA500136481 /* CoreData.framework */,
 				B859D2A815F753BC00C19F66 /* json */,
 				B859D2A515F751C500C19F66 /* MBProgressHUD.m */,
 				B859D2A615F751C500C19F66 /* MBProgressHUD.h */,
@@ -314,6 +336,7 @@
 		B84133C615ED35180086C917 /* Pettinelli */ = {
 			isa = PBXGroup;
 			children = (
+				B87ECC8116020B89002CDCA3 /* DB */,
 				B859D29615F74F5000C19F66 /* TXTs */,
 				B8D09DC215F54F220055D321 /* Cells */,
 				B8960A0E15F17BEA0032D653 /* Audio */,
@@ -342,6 +365,9 @@
 		B84133E515ED3AE40086C917 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B84953D515F01D97003B340A /* Blog.h */,
+				B84953D615F01D97003B340A /* Blog.m */,
+				B84953D715F01D97003B340A /* Blog.xib */,
 				B84953AD15EFA62E003B340A /* Post.h */,
 				B84953AE15EFA62E003B340A /* Post.m */,
 				B84953AF15EFA62E003B340A /* Post.xib */,
@@ -351,9 +377,6 @@
 				B84953CA15F01CA5003B340A /* Gallery.h */,
 				B84953CB15F01CA5003B340A /* Gallery.m */,
 				B84953CC15F01CA5003B340A /* Gallery.xib */,
-				B84953D515F01D97003B340A /* Blog.h */,
-				B84953D615F01D97003B340A /* Blog.m */,
-				B84953D715F01D97003B340A /* Blog.xib */,
 				B84953DA15F01DD9003B340A /* School.h */,
 				B84953DB15F01DD9003B340A /* School.m */,
 				B84953DC15F01DD9003B340A /* School.xib */,
@@ -415,6 +438,10 @@
 		B84953CF15F01CB4003B340A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B873D6B316022896001ACFCE /* Reachability.h */,
+				B873D6B216022896001ACFCE /* Reachability.m */,
+				B896052A1602190A00D1D3AF /* PettinelliViewController.h */,
+				B896052B1602190A00D1D3AF /* PettinelliViewController.m */,
 				B8565B8515F4170E00A4BFE3 /* MyAnnotation.m */,
 				B8565B8615F4170E00A4BFE3 /* MyAnnotation.h */,
 				B84133EE15ED3CCD0086C917 /* BrowserViewController.h */,
@@ -483,6 +510,18 @@
 			);
 			name = json;
 			path = Pettinelli/frameworks/json;
+			sourceTree = "<group>";
+		};
+		B87ECC8116020B89002CDCA3 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				B87ECC8216020BA6002CDCA3 /* Memory.xcdatamodeld */,
+				B87ECC8816020D48002CDCA3 /* Record.h */,
+				B87ECC8916020D48002CDCA3 /* Record.m */,
+				B87ECC8516020D28002CDCA3 /* Image.h */,
+				B87ECC8616020D28002CDCA3 /* Image.m */,
+			);
+			name = DB;
 			sourceTree = "<group>";
 		};
 		B8960A0E15F17BEA0032D653 /* Audio */ = {
@@ -697,6 +736,11 @@
 				B859D2CB15F753BC00C19F66 /* SBJsonTokeniser.m in Sources */,
 				B859D2CC15F753BC00C19F66 /* SBJsonUTF8Stream.m in Sources */,
 				B859D2CD15F753BC00C19F66 /* SBJsonWriter.m in Sources */,
+				B87ECC8416020BA6002CDCA3 /* Memory.xcdatamodeld in Sources */,
+				B87ECC8716020D28002CDCA3 /* Image.m in Sources */,
+				B87ECC8A16020D48002CDCA3 /* Record.m in Sources */,
+				B896052C1602190A00D1D3AF /* PettinelliViewController.m in Sources */,
+				B873D6B416022896001ACFCE /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,6 +875,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B87ECC8216020BA6002CDCA3 /* Memory.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B87ECC8316020BA6002CDCA3 /* Memory.xcdatamodel */,
+			);
+			currentVersion = B87ECC8316020BA6002CDCA3 /* Memory.xcdatamodel */;
+			path = Memory.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B84133B315ED35180086C917 /* Project object */;
 }

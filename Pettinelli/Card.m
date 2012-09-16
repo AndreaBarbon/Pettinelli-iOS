@@ -9,14 +9,14 @@
 #import "Card.h"
 
 @implementation Card
-@synthesize imageURL, flipped, delegate, founded;
+@synthesize imageURL, flipped, delegate, founded, data;
 
-- (id)initWithFrame:(CGRect)frame url:(NSString*)url
+- (id)initWithFrame:(CGRect)frame delegate:(id)del
 {
     self = [super initWithFrame:frame];
     if (self) 
     {
-        imageURL = [[NSString alloc] initWithString:url];
+        delegate = del;
         [self setup];
     }
     return self;
@@ -29,11 +29,17 @@
 
 }
 
-- (void)setup {
+- (void)setCardImage:(UIImage*)image url:(NSString*)url {
+    
+    imageView2.image = image;
+    imageURL = url;
+}
 
+- (void)setup {
+    
     imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Letter.png"]];
     imageView2 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Letter.png"]];
-    [imageView2 setImageWithURL:[NSURL URLWithString:imageURL]];
+    
     imageView.frame = self.bounds;
     imageView2.frame = self.bounds;
 
@@ -104,13 +110,7 @@
     }
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+
+
 
 @end

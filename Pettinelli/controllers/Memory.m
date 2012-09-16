@@ -8,23 +8,18 @@
 
 #import "Memory.h"
 #import "Card.h"
+#import "Image.h"
+#import "Record.h"
 
 @interface Memory ()
 
 @end
 
 @implementation Memory
+@synthesize managedObjectContext;
 
 @synthesize cards, photos;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 #define MARGIN_LEFT 5
 #define PADDING 1
@@ -51,6 +46,21 @@
     
     [self loadSounds];
     
+
+}
+
+- (void)handleOfflineSituation {
+    
+    DLog(@"I'm offline, and I'm a memory");
+    photos = nil;
+    photos = [[NSMutableArray alloc] initWithArray:[self fetchImages]];
+    
+    if (photos.count>=CARD_NUM*CARD_NUM/2) {
+        [self buildCardsOffline];
+        
+    } else {
+        NSLog(@"Not enough cards: Only %d", photos.count);
+    }
     
 }
 
@@ -75,7 +85,7 @@
 }
 
 - (void)start {
-    
+        
     if (CARD_NUM == 4) {
         [menu setSelectedSegmentIndex:0];
     } else {
@@ -100,25 +110,103 @@
 - (void)loadSounds {
     
     found_sound = [Abramo loadSound:@"found" format:@"mp3" volume:0.1];
-    flip_sound = [Abramo loadSound:@"flip" format:@"mp3" volume:0.5];
+    flip_sound = [Abramo loadSound:@"flip" format:@"mp3" volume:1];
 
 }
 
 - (void)clean {
     
-    for (Card *card in cards) {
-        [card removeFromSuperview];
+    if (cards.count > 0) {
+
+        for (Card *card in cards) {
+            [card removeFromSuperview];
+        }
+        [cards removeAllObjects];
+        [flipped_cards removeAllObjects];
     }
-    [cards removeAllObjects];
-    [flipped_cards removeAllObjects];
     
 }
 
 - (void)buildCards {
     
-    if (cards.count > 0) {
-        [self clean];
+    NSLog(@"Building cards...");
+      
+    //Clean
+    [self clean];
+        
+    //Compute the size
+    float card_size = [self computeCardSize];
+    
+    //Shuffle the photos
+    [self shufflePhotos];
+    
+    for (int i=0; i<CARD_NUM; i++) {
+        for (int j=0; j<CARD_NUM; j++) {
+            
+            CGRect rect = CGRectMake(MARGIN_LEFT + i*(card_size+PADDING),margin_top + j*(card_size+PADDING), card_size, card_size);
+            
+            Card *card = [[Card alloc] initWithFrame:rect delegate:self];
+            
+            [cards addObject:card];
+        }
     }
+    
+    NSLog(@"Now let's download the images");
+    
+    imagesReady = -1;
+    [self nextImage];
+
+}
+
+- (void)buildCardsOffline {
+    
+    NSLog(@"Building cards...");
+    
+    //Clean
+    [self clean];
+    
+    //Compute the size
+    float card_size = [self computeCardSize];
+    
+    //Shuffle the photos
+    [self shufflePhotos];
+    
+    for (int i=0; i<CARD_NUM; i++) {
+        for (int j=0; j<CARD_NUM; j++) {
+            
+            CGRect rect = CGRectMake(MARGIN_LEFT + i*(card_size+PADDING),margin_top + j*(card_size+PADDING), card_size, card_size);
+            
+            NSString *url   = [[photos objectAtIndex:(i+CARD_NUM*j)] name];
+            UIImage *image  = [UIImage imageWithData:[[photos objectAtIndex:(i+CARD_NUM*j)] data]];
+            
+            Card *card = [[Card alloc] initWithFrame:rect delegate:self];
+            [card setCardImage:image url:url];
+            [cards addObject:card];
+        }
+    }
+    
+    NSLog(@"Now let's draw the cards");
+    
+    [self drawCards];
+    
+}
+
+- (void)shufflePhotos {
+    
+    photos = [Abramo shuffleArray:photos];
+
+    NSMutableArray *random = [[NSMutableArray alloc] initWithCapacity:CARD_NUM*CARD_NUM/2];
+    
+    for (int i=0; i<CARD_NUM*CARD_NUM/2; i++) {
+        
+        [random addObject:[photos objectAtIndex:i]];
+        [random addObject:[photos objectAtIndex:i]];
+    }
+    
+    photos = [Abramo shuffleArray:random];
+}
+
+- (float)computeCardSize {
     
     int screen_width = [[UIScreen mainScreen] bounds].size.width;
     int screen_heigth = [[UIScreen mainScreen] bounds].size.height;
@@ -131,35 +219,19 @@
     }
     
     int screen_size = MIN(screen_heigth, screen_width);
-    float card_size = (screen_size-(margin*2)-(CARD_NUM-1)*PADDING)/CARD_NUM;
-    
-    
-    NSMutableArray *random = [[NSMutableArray alloc] initWithCapacity:CARD_NUM*CARD_NUM/2];
-    photos = [Abramo shuffleArray:photos];
+    return (screen_size-(margin*2)-(CARD_NUM-1)*PADDING)/CARD_NUM;
+}
 
+
+- (void)drawCards {
     
-    for (int i=0; i<CARD_NUM*CARD_NUM/2; i++) {
-        
-        [random addObject:[photos objectAtIndex:i]];
-        [random addObject:[photos objectAtIndex:i]];
+    for (Card *card in cards) {
+
+        [self.view addSubview:card];
     }
     
-    random = [Abramo shuffleArray:random];
-
-    for (int i=0; i<CARD_NUM; i++) {
-        for (int j=0; j<CARD_NUM; j++) {
-            
-            Card *card;
-            CGRect rect = CGRectMake(MARGIN_LEFT + i*(card_size+PADDING),margin_top + j*(card_size+PADDING), card_size, card_size);
-
-            card = [[Card alloc] initWithFrame:rect url:[random objectAtIndex:(i+CARD_NUM*j)]];
-            card.delegate = self;
-            [cards addObject:card];
-            
-            [self.view addSubview:card];
-            
-        }
-    }    
+    loading = NO;
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)parseJSON {
@@ -206,61 +278,13 @@
     }
     
     if (photos.count>=CARD_NUM*CARD_NUM/2) {
-        NSLog(@"Building cards...");
-        [self buildCards];
+        [self performSelectorOnMainThread:@selector(buildCards) withObject:nil waitUntilDone:YES];
         
     } else {
         NSLog(@"Not enough cards: Only %d", photos.count);
-    }
-
-    loading = NO;
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-        
+    }        
 }
 
-- (void)cardFlipped:(Card *)card {
-    
-    DLog(@"FLIPPED!, %d", flipped_cards.count);
-    
-    [flip_sound play];
-    
-    moves ++;
-    [movesLabel setText:[NSString stringWithFormat:@"Mosse: %d", moves]];
-    
-    if (flipped_cards.count==0) {
-        [flipped_cards addObject:card];
-
-    } else
-        
-    if (flipped_cards.count==1) {
-
-        [flipped_cards addObject:card];
-        DLog(@"2");
-        if ([[[flipped_cards objectAtIndex:0] imageURL] isEqualToString:[[flipped_cards objectAtIndex:1] imageURL]]) {
-            
-            //Founded!
-            
-            score += 548;
-            [scoreLabel setText:[NSString stringWithFormat:@"Punteggio: %d", score]];
-
-            
-            [[flipped_cards objectAtIndex:0] setFounded:YES];
-            [[flipped_cards objectAtIndex:1] setFounded:YES];
-            [found_sound play];
-            [self checkForWinner];
-        }
-        
-    } else
-    
-    if (flipped_cards.count==2) {
-        [self flopAllCards];
-        [flipped_cards addObject:card];
-
-    }
-    
-
-}
 
 - (void)checkForWinner {
     
@@ -269,13 +293,114 @@
             return;
         }
     }
-    NSString *s = [[NSString alloc] initWithFormat:@"Complimenti!  \n\n 👍 😄 😊 😃 ☺ 😉 👍 \n \n Mosse: %d", moves];
+    NSString *s = [[NSString alloc] initWithFormat:@"Hai vinto! \n\n 👍 😄 😊 😃 ☺ 😉 👍 \n \n Punteggio: %d \n Mosse: %d", score, moves];
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Hai vinto!" message:s delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Congratulazioni," message:s delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alertView show];
     
     [menu setSelectedSegmentIndex:2];
 
+}
+
+- (void)flopAllCards {
+    
+    for (Card *old_card in flipped_cards) {
+        if (!old_card.founded) [old_card flop];
+    }
+    
+    [flipped_cards removeAllObjects];
+    
+}
+
+- (void)nextImage {
+    
+    imagesReady ++;
+    
+    if (imagesReady>1) {
+        
+        NSString *url = [photos objectAtIndex:imagesReady-1];
+        if (![self isThereTheImageNamed:url]) {
+            
+            [self addImageWithName:url data:data];
+        }
+    }
+    
+    
+    if (imagesReady == CARD_NUM*CARD_NUM) {
+        
+        NSLog(@"All the images downloaded!");
+        
+        [self drawCards];
+        
+    } else {
+        
+        data = nil;
+        data = [[NSMutableData alloc] init];
+        currentImageUrl = [photos objectAtIndex:imagesReady];
+        
+        if ([self isThereTheImageNamed:currentImageUrl]) {
+            
+            NSLog(@"It was there!");
+            UIImage *image = [UIImage imageWithData:[self dataForImageNamed:currentImageUrl]];
+            [(Card*)[cards objectAtIndex:imagesReady] setCardImage:image url:currentImageUrl];
+            [self nextImage];
+            
+        } else {
+            
+            NSLog(@"Downloading new image: %@", currentImageUrl);
+            
+            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:currentImageUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:2.0];
+            
+            connectionImage = [NSURLConnection connectionWithRequest:request delegate:self];
+        }
+    }
+    
+}
+
+
+#pragma mark Card Delegate
+
+- (void)cardFlipped:(Card *)card {
+    
+    DLog(@"FLIPPED!, %@", card.imageURL);
+    
+    [flip_sound play];
+    
+    moves ++;
+    [movesLabel setText:[NSString stringWithFormat:@"Mosse: %d", moves]];
+    
+    if (flipped_cards.count==0) {
+        [flipped_cards addObject:card];
+        
+    } else
+        
+        if (flipped_cards.count==1) {
+            
+            [flipped_cards addObject:card];
+            DLog(@"2");
+            if ([[[flipped_cards objectAtIndex:0] imageURL] isEqualToString:[[flipped_cards objectAtIndex:1] imageURL]]) {
+                
+                //Founded!
+                
+                score += 548;
+                [scoreLabel setText:[NSString stringWithFormat:@"Punteggio: %d", score]];
+                
+                
+                [[flipped_cards objectAtIndex:0] setFounded:YES];
+                [[flipped_cards objectAtIndex:1] setFounded:YES];
+                [found_sound play];
+                [self checkForWinner];
+            }
+            
+        } else
+            
+            if (flipped_cards.count==2) {
+                [self flopAllCards];
+                [flipped_cards addObject:card];
+                
+            }
+    
+    
 }
 
 - (void)cardFlopped:(Card *)card {
@@ -286,26 +411,148 @@
     
 }
 
-- (void)flopAllCards {
+
+#pragma mark -
+#pragma mark NSURLConnection delegate
+
+- (void)connectionDidFinishLoading:(NSURLConnection*)theConnection {
     
-    for (Card *old_card in flipped_cards) {
-        if (!old_card.founded) [old_card flop];
+	if (theConnection==connectionImage) {
+        
+        NSLog(@"Got one image!");
+        [[cards objectAtIndex:imagesReady] setCardImage:[UIImage imageWithData:data] url:currentImageUrl];
+        [self nextImage];
+        
+    } else {
+
+        NSLog(@"Json downloaded, now let's parse it");
+        [NSThread detachNewThreadSelector:@selector(parseJSON) toTarget:self withObject:nil];
+    }
+	
+}
+
+#pragma mark CoreData 
+
+- (void)addImageWithName:(NSString*)name data:(NSData*)imgdata {
+    
+	NSManagedObjectContext *context = [self managedObjectContext];
+    
+    Image *image = [NSEntityDescription
+                    insertNewObjectForEntityForName:@"Image" 
+                    inManagedObjectContext:context];
+    
+    image.name = name;
+    image.data = imgdata;
+    
+	//Effettuiamo il salvataggio gestendo eventuali errori
+	NSError *error;
+	if (![context save:&error]) {
+		NSLog(@"Errore durante il salvataggio: %@", [error localizedDescription]);
+	} else {
+        NSLog(@"Created image named: %@", name);
+    }
+}
+
+- (BOOL)isThereTheImageNamed:(NSString*)name {
+    
+    NSManagedObjectContext *context = [self managedObjectContext];
+
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    
+    // The request looks for this a group with the supplied name
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSUInteger count = [managedObjectContext countForFetchRequest:request error:&error];
+
+    
+    if (!error){
+        return count;
+    }
+    else
+        return NO;
+}
+
+- (NSData*)dataForImageNamed:(NSString*)name {
+    
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    
+    // The request looks for this a group with the supplied name
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", name];
+    [request setPredicate:predicate];
+    [request setFetchLimit:1];
+    
+    NSError *error = nil;
+    Image *image = [[managedObjectContext executeFetchRequest:request error:&error] lastObject];
+    
+    return image.data;
+    
+}
+
+- (NSArray*)fetchImages {
+    
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:YES];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    
+    if ([array count] == 0) {
+        NSLog(@"Error = %@", error);
     }
     
-    [flipped_cards removeAllObjects];
-
+    return array;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+- (NSArray*)fetchRecords {
+    
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"score" ascending:YES];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    
+    if ([array count] == 0) {
+        NSLog(@"Error = %@", error);
+    }
+    
+    return array;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (Record*)newRecord {
+    
+    return [NSEntityDescription
+            insertNewObjectForEntityForName:@"Record" 
+            inManagedObjectContext:self.managedObjectContext];
 }
+
+
+
+
+
+
 
 @end

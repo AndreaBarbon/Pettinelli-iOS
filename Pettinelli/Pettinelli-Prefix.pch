@@ -11,6 +11,8 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #import <SystemConfiguration/SystemConfiguration.h>
     #import "AppDelegate.h"
     #import "Abramo.h"
+    #import "Reachability.h"
 #endif
