@@ -23,6 +23,7 @@
 		B841344D15EDA2600086C917 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B841344C15EDA2600086C917 /* ImageIO.framework */; };
 		B841345415EDA7DF0086C917 /* Galleries.m in Sources */ = {isa = PBXBuildFile; fileRef = B841345315EDA7DF0086C917 /* Galleries.m */; };
 		B841345615EDA9830086C917 /* Galleries.xib in Resources */ = {isa = PBXBuildFile; fileRef = B841345515EDA9830086C917 /* Galleries.xib */; };
+		B8452D8716067AA700538CFB /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = B8452D8616067AA700538CFB /* Player.m */; };
 		B84953B015EFA62E003B340A /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = B84953AE15EFA62E003B340A /* Post.m */; };
 		B84953B115EFA62E003B340A /* Post.xib in Resources */ = {isa = PBXBuildFile; fileRef = B84953AF15EFA62E003B340A /* Post.xib */; };
 		B84953B415F00FFB003B340A /* Detail.m in Sources */ = {isa = PBXBuildFile; fileRef = B84953B315F00FFA003B340A /* Detail.m */; };
@@ -160,6 +161,8 @@
 		B841345215EDA7DF0086C917 /* Galleries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galleries.h; sourceTree = "<group>"; };
 		B841345315EDA7DF0086C917 /* Galleries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Galleries.m; sourceTree = "<group>"; };
 		B841345515EDA9830086C917 /* Galleries.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Galleries.xib; sourceTree = "<group>"; };
+		B8452D8516067AA700538CFB /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = Classes/Player.h; sourceTree = "<group>"; };
+		B8452D8616067AA700538CFB /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Player.m; path = Classes/Player.m; sourceTree = "<group>"; };
 		B84953AD15EFA62E003B340A /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = controllers/Post.h; sourceTree = "<group>"; };
 		B84953AE15EFA62E003B340A /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = controllers/Post.m; sourceTree = "<group>"; };
 		B84953AF15EFA62E003B340A /* Post.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Post.xib; path = controllers/Post.xib; sourceTree = "<group>"; };
@@ -451,6 +454,8 @@
 				B84953B315F00FFA003B340A /* Detail.m */,
 				B8960A0715F110A20032D653 /* Abramo.h */,
 				B8960A0815F110A20032D653 /* Abramo.m */,
+				B8452D8516067AA700538CFB /* Player.h */,
+				B8452D8616067AA700538CFB /* Player.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -741,6 +746,7 @@
 				B87ECC8A16020D48002CDCA3 /* Record.m in Sources */,
 				B896052C1602190A00D1D3AF /* PettinelliViewController.m in Sources */,
 				B873D6B416022896001ACFCE /* Reachability.m in Sources */,
+				B8452D8716067AA700538CFB /* Player.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

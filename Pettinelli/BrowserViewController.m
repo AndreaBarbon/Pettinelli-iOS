@@ -101,7 +101,7 @@
     data = nil;
     data = [[NSMutableData alloc] init];
     
-    NSLog(@"Connecting to: %@", url);
+    DLog(@"Connecting to: %@", url);
     
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
 	connectionJSON = [NSURLConnection connectionWithRequest:request delegate:self];

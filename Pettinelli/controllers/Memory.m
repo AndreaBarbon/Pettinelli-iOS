@@ -10,6 +10,7 @@
 #import "Card.h"
 #import "Image.h"
 #import "Record.h"
+#import "Player.h"
 
 @interface Memory ()
 
@@ -27,26 +28,36 @@
 - (void)viewDidLoad
 {
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        margin_top = 140;
+    else
         margin_top = 100;
-    } else {  
-        margin_top = 70;
+    
+    
+    CARD_NUM = 4;   //Needs to be even
+    
+    cards =         [[NSMutableArray alloc] initWithCapacity:CARD_NUM*CARD_NUM];
+    photos =        [[NSMutableArray alloc] initWithCapacity:CARD_NUM*CARD_NUM];
+    flipped_cards = [[NSMutableArray alloc] initWithCapacity:3];
+    players =       [[NSMutableArray alloc] initWithCapacity:4];
+    
+    self.url=@"galleries.json";     [super viewDidLoad];    [self loadSounds];
+    
+    
+    for (int i=0; i<1; i++) {
+        
+        Player *player = [[Player alloc] init];
+        player.name = [NSString stringWithFormat:@"Giocatore %d", i+1];
+        player.index = i;
+        [players addObject:player];
     }
     
-    //Needs to be even
-    CARD_NUM = 4;
+//    Player *player2 = [[Player alloc] init];
+//    player2.name = @"Giocatore 2";
+//    player2.index = 1;
+//    [players addObject:player2];
     
-    cards = [[NSMutableArray alloc] initWithCapacity:CARD_NUM*CARD_NUM];
-    photos = [[NSMutableArray alloc] initWithCapacity:CARD_NUM*CARD_NUM];
-    flipped_cards = [[NSMutableArray alloc] initWithCapacity:3];
     
-    self.url=@"galleries.json";
-    
-    [super viewDidLoad];
-    
-    [self loadSounds];
-    
-
 }
 
 - (void)handleOfflineSituation {
@@ -85,36 +96,38 @@
 }
 
 - (void)start {
+    
+    [self reload];
+}
+
+- (void)loadSounds {
+    
+    found_sound = [Abramo loadSound:@"found" format:@"mp3" volume:1];
+    flip_sound = [Abramo loadSound:@"flip" format:@"mp3" volume:2];
+
+}
+
+- (void)clean {
+    
+    for (Player *player in players) {
+        player.moves = 1;
+        player.score = 0;
+        player.moves_left = 0;
+        [player.cards removeAllObjects];
+    }
+    
+    current_player = [players objectAtIndex:0];
+    [current_player addMove];
         
     if (CARD_NUM == 4) {
         [menu setSelectedSegmentIndex:0];
     } else {
         [menu setSelectedSegmentIndex:1];
     }
-
-    score = 0;
-    [movesLabel setText:[NSString stringWithFormat:@"Punteggio: %d", score]];
-
-    moves = 0;
-    [movesLabel setText:[NSString stringWithFormat:@"Mosse: %d", moves]];
-
-    dispatch_queue_t main_queue = dispatch_get_main_queue();
-    dispatch_async(main_queue, ^{
-        
-        [self clean];
-        [self reload];
-        
-    });
-}
-
-- (void)loadSounds {
     
-    found_sound = [Abramo loadSound:@"found" format:@"mp3" volume:0.1];
-    flip_sound = [Abramo loadSound:@"flip" format:@"mp3" volume:1];
-
-}
-
-- (void)clean {
+    score = 0;
+    [scoreLabel setText:[NSString stringWithFormat:@"Punteggio: %d", current_player.score]];
+    [playerLabel setText:current_player.name];
     
     if (cards.count > 0) {
 
@@ -293,9 +306,9 @@
             return;
         }
     }
-    NSString *s = [[NSString alloc] initWithFormat:@"Hai vinto! \n\n 👍 😄 😊 😃 ☺ 😉 👍 \n \n Punteggio: %d \n Mosse: %d", score, moves];
+    NSString *s = [[NSString alloc] initWithFormat:@"Hai vinto! \n\n 👍 😄 😊 😃 ☺ 😉 👍 \n \n Punteggio: %d \n Mosse: %d", current_player.score, current_player.moves];
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Congratulazioni," message:s delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:current_player.name message:s delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alertView show];
     
     [menu setSelectedSegmentIndex:2];
@@ -309,7 +322,7 @@
     }
     
     [flipped_cards removeAllObjects];
-    
+
 }
 
 - (void)nextImage {
@@ -331,7 +344,7 @@
         NSLog(@"All the images downloaded!");
         
         [self drawCards];
-        
+
     } else {
         
         data = nil;
@@ -362,44 +375,64 @@
 
 - (void)cardFlipped:(Card *)card {
     
-    DLog(@"FLIPPED!, %@", card.imageURL);
+    DLog(@"FLIPPED! \n CARD URL: \n, %@ \n\n", card.imageURL);
+    
+    NSLog(@"Moves left: %d", current_player.moves_left);
     
     [flip_sound play];
     
     moves ++;
-    [movesLabel setText:[NSString stringWithFormat:@"Mosse: %d", moves]];
+    
+    if (flipped_cards.count==2) {
+        [self flopAllCards];
+
+    } else
     
     if (flipped_cards.count==0) {
         [flipped_cards addObject:card];
         
     } else
         
-        if (flipped_cards.count==1) {
+    if (flipped_cards.count==1) {
+        
+        [flipped_cards addObject:card];
+        DLog(@"2");
+        if ([[[flipped_cards objectAtIndex:0] imageURL] isEqualToString:[[flipped_cards objectAtIndex:1] imageURL]]) {
             
-            [flipped_cards addObject:card];
-            DLog(@"2");
-            if ([[[flipped_cards objectAtIndex:0] imageURL] isEqualToString:[[flipped_cards objectAtIndex:1] imageURL]]) {
-                
-                //Founded!
-                
-                score += 548;
-                [scoreLabel setText:[NSString stringWithFormat:@"Punteggio: %d", score]];
-                
-                
-                [[flipped_cards objectAtIndex:0] setFounded:YES];
-                [[flipped_cards objectAtIndex:1] setFounded:YES];
-                [found_sound play];
-                [self checkForWinner];
-            }
+            // ******** 😄 😊 😃 Founded! 😄 😊 😃 *******
             
-        } else
-            
-            if (flipped_cards.count==2) {
-                [self flopAllCards];
-                [flipped_cards addObject:card];
+            //Give credit to the player
+            [current_player.cards addObject:[flipped_cards objectAtIndex:0]];
+            [current_player addBonusMove];
+            current_player.score ++;
+
+            [[flipped_cards objectAtIndex:0] setFounded:YES];
+            [[flipped_cards objectAtIndex:1] setFounded:YES];
+            [found_sound play];
+            [self checkForWinner];
+            [self flopAllCards];
+        }
                 
-            }
+    }
     
+    current_player.moves_left --;
+    
+    if (current_player.moves_left==0) {
+        
+        //Set a move on the old player
+        current_player.moves ++;
+        
+        //and create a new one (if needed)r
+        int i = (current_player.index + 1)%players.count;
+        current_player = [players objectAtIndex:i];
+        [current_player addMove];
+        NSLog(@"%@'s turn now!", current_player.name);
+        [flip_sound play];
+    }
+    
+    [playerLabel setText:current_player.name];
+    [scoreLabel setText:[NSString stringWithFormat:@"Punteggio: %d, Mosse: %d", current_player.score, current_player.moves]];
+
     
 }
 
@@ -411,6 +444,21 @@
     
 }
 
+- (BOOL)canFlipCard:(Card *)card {
+    
+    switch (flipped_cards.count) {
+            
+        case 1:     return !card.flipped;
+            break;
+            
+        case 2:     return card.flipped;
+            break;
+            
+        default:    return YES;
+            break;
+    }
+}
+
 
 #pragma mark -
 #pragma mark NSURLConnection delegate
@@ -419,7 +467,7 @@
     
 	if (theConnection==connectionImage) {
         
-        NSLog(@"Got one image!");
+        DLog(@"Got one image!");
         [[cards objectAtIndex:imagesReady] setCardImage:[UIImage imageWithData:data] url:currentImageUrl];
         [self nextImage];
         

@@ -87,26 +87,24 @@
 
 - (void)flip {
     
-    if (!founded) {
-        
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        [UIView beginAnimations:nil context:context];
-        [UIView setAnimationDuration:0.75];
-        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self cache:YES];
-        
-        if (flipped) {
-            flipped = NO;
-            [imageView setHidden:NO];
-            [imageView2 setHidden:YES];
-            [delegate cardFlopped:self];
-        } else {
-            flipped = YES;
-            [imageView setHidden:YES];
-            [imageView2 setHidden:NO];
-            [delegate cardFlipped:self];
+    if ([delegate canFlipCard:self] && !founded) {
+
+        if (!flipped) {
+            
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            [UIView beginAnimations:nil context:context];
+            [UIView setAnimationDuration:0.75];
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self cache:YES];
+            
+                flipped = YES;
+                [imageView setHidden:YES];
+                [imageView2 setHidden:NO];
+            
+            [UIView commitAnimations];
+            
         }
-        
-        [UIView commitAnimations];
+            
+        [delegate cardFlipped:self];
     }
 }
 

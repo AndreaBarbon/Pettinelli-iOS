@@ -15,6 +15,7 @@
 
 - (void)cardFlipped:    (Card*)card;
 - (void)cardFlopped:    (Card*)card;
+- (BOOL)canFlipCard:    (Card*)card;
 
 @end
 
