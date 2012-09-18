@@ -23,7 +23,6 @@
 		B841344D15EDA2600086C917 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B841344C15EDA2600086C917 /* ImageIO.framework */; };
 		B841345415EDA7DF0086C917 /* Galleries.m in Sources */ = {isa = PBXBuildFile; fileRef = B841345315EDA7DF0086C917 /* Galleries.m */; };
 		B841345615EDA9830086C917 /* Galleries.xib in Resources */ = {isa = PBXBuildFile; fileRef = B841345515EDA9830086C917 /* Galleries.xib */; };
-		B8452D8716067AA700538CFB /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = B8452D8616067AA700538CFB /* Player.m */; };
 		B84953B015EFA62E003B340A /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = B84953AE15EFA62E003B340A /* Post.m */; };
 		B84953B115EFA62E003B340A /* Post.xib in Resources */ = {isa = PBXBuildFile; fileRef = B84953AF15EFA62E003B340A /* Post.xib */; };
 		B84953B415F00FFB003B340A /* Detail.m in Sources */ = {isa = PBXBuildFile; fileRef = B84953B315F00FFA003B340A /* Detail.m */; };
@@ -48,6 +47,10 @@
 		B84953F015F0218B003B340A /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = B84953EF15F0218B003B340A /* Card.m */; };
 		B84953F515F02511003B340A /* Pettinelli.png in Resources */ = {isa = PBXBuildFile; fileRef = B84953F315F02511003B340A /* Pettinelli.png */; };
 		B84953F615F02511003B340A /* Pettinelli@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B84953F415F02511003B340A /* Pettinelli@2x.png */; };
+		B8529CC21607178D0054D4D2 /* NewGame.m in Sources */ = {isa = PBXBuildFile; fileRef = B8529CC01607178D0054D4D2 /* NewGame.m */; };
+		B8529CC31607178D0054D4D2 /* NewGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8529CC11607178D0054D4D2 /* NewGame.xib */; };
+		B8529CC716071DAF0054D4D2 /* PlayerProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B8529CC516071DAF0054D4D2 /* PlayerProperties.m */; };
+		B8529CC816071DAF0054D4D2 /* PlayerProperties.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8529CC616071DAF0054D4D2 /* PlayerProperties.xib */; };
 		B8565B8715F4170E00A4BFE3 /* MyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B8565B8515F4170E00A4BFE3 /* MyAnnotation.m */; };
 		B8565B8D15F4B76200A4BFE3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8565B8C15F4B76200A4BFE3 /* MessageUI.framework */; };
 		B859D28F15F74F4100C19F66 /* icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = B859D28815F74F4100C19F66 /* icon-144.png */; };
@@ -89,6 +92,7 @@
 		B8960A0C15F17A4F0032D653 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8960A0A15F17A4F0032D653 /* AudioToolbox.framework */; };
 		B8960A0D15F17A4F0032D653 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8960A0B15F17A4F0032D653 /* CoreAudio.framework */; };
 		B8960A1215F17C170032D653 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8960A1115F17C170032D653 /* AVFoundation.framework */; };
+		B8B62FB01608BA5A00316280 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B62FAF1608BA5A00316280 /* Player.m */; };
 		B8BD00CA15F2DDC800F2E995 /* loading-1 (trascinato).tiff in Resources */ = {isa = PBXBuildFile; fileRef = B8BD00B615F2DDC800F2E995 /* loading-1 (trascinato).tiff */; };
 		B8BD00CB15F2DDC800F2E995 /* loading-10 (trascinato).tiff in Resources */ = {isa = PBXBuildFile; fileRef = B8BD00B715F2DDC800F2E995 /* loading-10 (trascinato).tiff */; };
 		B8BD00CC15F2DDC800F2E995 /* loading-11 (trascinato).tiff in Resources */ = {isa = PBXBuildFile; fileRef = B8BD00B815F2DDC800F2E995 /* loading-11 (trascinato).tiff */; };
@@ -161,8 +165,6 @@
 		B841345215EDA7DF0086C917 /* Galleries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Galleries.h; sourceTree = "<group>"; };
 		B841345315EDA7DF0086C917 /* Galleries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Galleries.m; sourceTree = "<group>"; };
 		B841345515EDA9830086C917 /* Galleries.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Galleries.xib; sourceTree = "<group>"; };
-		B8452D8516067AA700538CFB /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = Classes/Player.h; sourceTree = "<group>"; };
-		B8452D8616067AA700538CFB /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Player.m; path = Classes/Player.m; sourceTree = "<group>"; };
 		B84953AD15EFA62E003B340A /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = controllers/Post.h; sourceTree = "<group>"; };
 		B84953AE15EFA62E003B340A /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = controllers/Post.m; sourceTree = "<group>"; };
 		B84953AF15EFA62E003B340A /* Post.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Post.xib; path = controllers/Post.xib; sourceTree = "<group>"; };
@@ -194,6 +196,12 @@
 		B84953EF15F0218B003B340A /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
 		B84953F315F02511003B340A /* Pettinelli.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Pettinelli.png; path = images/Pettinelli.png; sourceTree = "<group>"; };
 		B84953F415F02511003B340A /* Pettinelli@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Pettinelli@2x.png"; path = "images/Pettinelli@2x.png"; sourceTree = "<group>"; };
+		B8529CBF1607178D0054D4D2 /* NewGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewGame.h; path = controllers/NewGame.h; sourceTree = "<group>"; };
+		B8529CC01607178D0054D4D2 /* NewGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewGame.m; path = controllers/NewGame.m; sourceTree = "<group>"; };
+		B8529CC11607178D0054D4D2 /* NewGame.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewGame.xib; path = controllers/NewGame.xib; sourceTree = "<group>"; };
+		B8529CC416071DAF0054D4D2 /* PlayerProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerProperties.h; path = controllers/PlayerProperties.h; sourceTree = "<group>"; };
+		B8529CC516071DAF0054D4D2 /* PlayerProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerProperties.m; path = controllers/PlayerProperties.m; sourceTree = "<group>"; };
+		B8529CC616071DAF0054D4D2 /* PlayerProperties.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlayerProperties.xib; path = controllers/PlayerProperties.xib; sourceTree = "<group>"; };
 		B8565B8515F4170E00A4BFE3 /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyAnnotation.m; path = Classes/MyAnnotation.m; sourceTree = "<group>"; };
 		B8565B8615F4170E00A4BFE3 /* MyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyAnnotation.h; path = Classes/MyAnnotation.h; sourceTree = "<group>"; };
 		B8565B8C15F4B76200A4BFE3 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -255,6 +263,9 @@
 		B8960A0A15F17A4F0032D653 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B8960A0B15F17A4F0032D653 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		B8960A1115F17C170032D653 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B8B62FAD1608B77600316280 /* Memory 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Memory 2.xcdatamodel"; sourceTree = "<group>"; };
+		B8B62FAE1608BA5A00316280 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = DB/Player.h; sourceTree = "<group>"; };
+		B8B62FAF1608BA5A00316280 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Player.m; path = DB/Player.m; sourceTree = "<group>"; };
 		B8BD00B615F2DDC800F2E995 /* loading-1 (trascinato).tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "loading-1 (trascinato).tiff"; sourceTree = "<group>"; };
 		B8BD00B715F2DDC800F2E995 /* loading-10 (trascinato).tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "loading-10 (trascinato).tiff"; sourceTree = "<group>"; };
 		B8BD00B815F2DDC800F2E995 /* loading-11 (trascinato).tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "loading-11 (trascinato).tiff"; sourceTree = "<group>"; };
@@ -386,6 +397,12 @@
 				B84953DF15F0203A003B340A /* Memory.h */,
 				B84953E015F0203A003B340A /* Memory.m */,
 				B84953E115F0203A003B340A /* Memory.xib */,
+				B8529CBF1607178D0054D4D2 /* NewGame.h */,
+				B8529CC01607178D0054D4D2 /* NewGame.m */,
+				B8529CC11607178D0054D4D2 /* NewGame.xib */,
+				B8529CC416071DAF0054D4D2 /* PlayerProperties.h */,
+				B8529CC516071DAF0054D4D2 /* PlayerProperties.m */,
+				B8529CC616071DAF0054D4D2 /* PlayerProperties.xib */,
 				B84953EE15F0218B003B340A /* Card.h */,
 				B84953EF15F0218B003B340A /* Card.m */,
 				B80A437215F412380006205F /* Contacts.h */,
@@ -454,8 +471,6 @@
 				B84953B315F00FFA003B340A /* Detail.m */,
 				B8960A0715F110A20032D653 /* Abramo.h */,
 				B8960A0815F110A20032D653 /* Abramo.m */,
-				B8452D8516067AA700538CFB /* Player.h */,
-				B8452D8616067AA700538CFB /* Player.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -525,6 +540,8 @@
 				B87ECC8916020D48002CDCA3 /* Record.m */,
 				B87ECC8516020D28002CDCA3 /* Image.h */,
 				B87ECC8616020D28002CDCA3 /* Image.m */,
+				B8B62FAE1608BA5A00316280 /* Player.h */,
+				B8B62FAF1608BA5A00316280 /* Player.m */,
 			);
 			name = DB;
 			sourceTree = "<group>";
@@ -702,6 +719,8 @@
 				B859D2A415F74F7900C19F66 /* Letter.png in Resources */,
 				B859D2D015F753D900C19F66 /* flip.mp3 in Resources */,
 				B859D2D115F753D900C19F66 /* found.mp3 in Resources */,
+				B8529CC31607178D0054D4D2 /* NewGame.xib in Resources */,
+				B8529CC816071DAF0054D4D2 /* PlayerProperties.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,7 +765,9 @@
 				B87ECC8A16020D48002CDCA3 /* Record.m in Sources */,
 				B896052C1602190A00D1D3AF /* PettinelliViewController.m in Sources */,
 				B873D6B416022896001ACFCE /* Reachability.m in Sources */,
-				B8452D8716067AA700538CFB /* Player.m in Sources */,
+				B8529CC21607178D0054D4D2 /* NewGame.m in Sources */,
+				B8529CC716071DAF0054D4D2 /* PlayerProperties.m in Sources */,
+				B8B62FB01608BA5A00316280 /* Player.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -886,9 +907,10 @@
 		B87ECC8216020BA6002CDCA3 /* Memory.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B8B62FAD1608B77600316280 /* Memory 2.xcdatamodel */,
 				B87ECC8316020BA6002CDCA3 /* Memory.xcdatamodel */,
 			);
-			currentVersion = B87ECC8316020BA6002CDCA3 /* Memory.xcdatamodel */;
+			currentVersion = B8B62FAD1608B77600316280 /* Memory 2.xcdatamodel */;
 			path = Memory.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

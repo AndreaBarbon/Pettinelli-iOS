@@ -8,16 +8,19 @@
 
 #import "BrowserViewController.h"
 #import "Card.h"
-@class Player;
+#import "NewGame.h"
+@class Player, NewGame;
 
-@interface Memory : BrowserViewController <CardProtocol> {
+@interface Memory : BrowserViewController <CardProtocol, NewGameProtocol> {
     
     NSMutableArray *flipped_cards;
-    NSMutableArray *players;
 
     IBOutlet UISegmentedControl *menu;
     IBOutlet UILabel *playerLabel;
     IBOutlet UILabel *scoreLabel;
+    IBOutlet UIView *board;
+    
+    NewGame *newGameController;
 
     int CARD_NUM;
     int imagesReady;
@@ -28,6 +31,7 @@
     int moves;
     int score;
     int margin_top;
+    int margin_left;
     
     Player *current_player;
     
@@ -35,8 +39,11 @@
 
 }
 
+@property(nonatomic, retain) NSMutableArray *players;
 @property(nonatomic, retain) NSMutableArray *cards;
 @property(nonatomic, retain) NSMutableArray *photos;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+- (IBAction)menu:(id)sender;
 
 @end

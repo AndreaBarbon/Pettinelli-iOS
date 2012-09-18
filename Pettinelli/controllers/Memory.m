@@ -11,6 +11,8 @@
 #import "Image.h"
 #import "Record.h"
 #import "Player.h"
+#import "NewGame.h"
+#import "PlayerProperties.h"
 
 @interface Memory ()
 
@@ -19,7 +21,7 @@
 @implementation Memory
 @synthesize managedObjectContext;
 
-@synthesize cards, photos;
+@synthesize cards, photos, players;
 
 
 #define MARGIN_LEFT 5
@@ -29,35 +31,59 @@
 {
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        margin_top = 140;
+        margin_top = 0;
     else
-        margin_top = 100;
+        margin_top = 0;
     
     
+    int MAX_PLAYERS = 4;
     CARD_NUM = 4;   //Needs to be even
     
     cards =         [[NSMutableArray alloc] initWithCapacity:CARD_NUM*CARD_NUM];
     photos =        [[NSMutableArray alloc] initWithCapacity:CARD_NUM*CARD_NUM];
     flipped_cards = [[NSMutableArray alloc] initWithCapacity:3];
     players =       [[NSMutableArray alloc] initWithCapacity:4];
+
+    self.url=@"galleries.json";
+    [super viewDidLoad];    [self loadSounds];
     
-    self.url=@"galleries.json";     [super viewDidLoad];    [self loadSounds];
+    NSMutableArray *savedPlayers = [[NSMutableArray alloc] initWithArray:[self fetch:@"Player" order:@"date"]];
     
-    
-    for (int i=0; i<1; i++) {
+    if (savedPlayers.count < MAX_PLAYERS) {
         
-        Player *player = [[Player alloc] init];
-        player.name = [NSString stringWithFormat:@"Giocatore %d", i+1];
-        player.index = i;
+        for (int i=0; i<MAX_PLAYERS-savedPlayers.count; i++) {
+            
+            NSString *name = [NSString stringWithFormat:@"Giocatore %d", i+1];
+            Player *player = [self newPlayerWithName:name index:i];
+            if (i==0) player.playing = YES;
+            [savedPlayers addObject:player];
+        }
+    }
+    
+        
+    for (int i=0; i<MAX_PLAYERS; i++) {
+        
+        NSLog(@"Adding player");
+        
+        Player *player = [savedPlayers objectAtIndex:i];
+        if (i==0) player.playing = YES;
         [players addObject:player];
     }
     
-//    Player *player2 = [[Player alloc] init];
-//    player2.name = @"Giocatore 2";
-//    player2.index = 1;
-//    [players addObject:player2];
+    [self menu:self];
+}
+
+- (void)startGameWithCardNumber:(int)n {
     
+    [self.managedObjectContext save:nil];
+    [self dismissModalViewControllerAnimated:YES];
+    CARD_NUM = n;
+    [self start];
+}
+
+- (void)undoGame {
     
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)handleOfflineSituation {
@@ -77,22 +103,8 @@
 
 - (IBAction)menu:(id)sender {
         
-    switch (menu.selectedSegmentIndex) {
-        case 0:
-            CARD_NUM = 4;
-            [self start];
-            NSLog(@"Starting easy");
-            break;
-
-        case 1:
-            CARD_NUM = 6;
-            [self start];
-            NSLog(@"Starting hard");
-            break;            
-        
-        default:
-            break;
-    }
+    newGameController = [[NewGame alloc] initWithDelegate:self];
+    [self presentModalViewController:newGameController animated:YES];
 }
 
 - (void)start {
@@ -221,26 +233,56 @@
 
 - (float)computeCardSize {
     
-    int screen_width = [[UIScreen mainScreen] bounds].size.width;
-    int screen_heigth = [[UIScreen mainScreen] bounds].size.height;
+    int screen_width = board.bounds.size.width;
+    int screen_height = board.bounds.size.height;
     
     int margin;
-    if (screen_width<screen_heigth) {
+    if (screen_width<screen_height) {
         margin = MARGIN_LEFT;
     } else {
         margin = margin_top;
     }
     
-    int screen_size = MIN(screen_heigth, screen_width);
-    return (screen_size-(margin*2)-(CARD_NUM-1)*PADDING)/CARD_NUM;
+    int screen_size = MIN(screen_height, screen_width);
+    int other_size = MAX(screen_height, screen_width);
+    
+    
+    float size = (screen_size-(margin*2)-(CARD_NUM-1)*PADDING)/CARD_NUM;
+
+    if (screen_height<screen_width) {
+        margin_left = (other_size - size*CARD_NUM)/2;
+    } else {
+        margin_left = 0;
+    }
+
+    return size;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+
+    [self updateCardPosition];
+}
+
+- (void)updateCardPosition {
+    
+    int card_size = [self computeCardSize];
+    
+    for (int i=0; i<CARD_NUM; i++) {
+        for (int j=0; j<CARD_NUM; j++) {
+            
+            CGRect rect = CGRectMake(margin_left + MARGIN_LEFT + i*(card_size+PADDING),margin_top + j*(card_size+PADDING), card_size, card_size);
+            
+            Card *card = [cards objectAtIndex:i*CARD_NUM+j];
+            card.frame = rect;
+        }
+    }
+}
 
 - (void)drawCards {
     
     for (Card *card in cards) {
 
-        [self.view addSubview:card];
+        [board addSubview:card];
     }
     
     loading = NO;
@@ -298,7 +340,6 @@
     }        
 }
 
-
 - (void)checkForWinner {
     
     for (Card *card in cards) {
@@ -306,9 +347,47 @@
             return;
         }
     }
-    NSString *s = [[NSString alloc] initWithFormat:@"Hai vinto! \n\n 👍 😄 😊 😃 ☺ 😉 👍 \n \n Punteggio: %d \n Mosse: %d", current_player.score, current_player.moves];
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:current_player.name message:s delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    NSMutableArray *winners = [[NSMutableArray alloc] initWithCapacity:players.count];
+    int max = 0;
+
+    for (Player *p in [self playingPlayers]) {
+        
+        if (p.score > max) {
+            
+            max = p.score;
+        }
+    }
+    
+    for (Player *p in players) {
+        if (p.score == max) [winners addObject:p];
+    }
+
+    
+    BOOL plural = (winners.count>1);
+    
+    NSString *s;
+    if (plural) {
+        s = @"I vincitori sono:\n";
+    } else {
+        s = @"IL vincitore è:\n";
+    }
+
+    NSString *title = @"Memory completato!";
+    NSString *message = [[NSString alloc] initWithFormat:@"\n 👍 😄 😊 😃 ☺ 😉 👍 \n\n %@", s];
+    
+    for (Player *p in winners) {
+        message = [message stringByAppendingFormat:@"%@ (%d)   ", p.name, p.score];
+    }
+    
+    message = [message stringByAppendingFormat:@"\n\n Punteggi: \n"];
+
+    
+    for (Player *p in [self playingPlayers]) {
+        message = [message stringByAppendingFormat:@"%@ (%d)   ", p.name, p.score];
+    }
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alertView show];
     
     [menu setSelectedSegmentIndex:2];
@@ -370,6 +449,21 @@
     
 }
 
+- (NSArray*)playingPlayers {
+    
+    NSMutableArray *playingPlayers = [[NSMutableArray alloc] initWithCapacity:players.count];
+    
+    for (Player *p in players) {
+
+        if (p.playing) {
+            
+            [playingPlayers addObject:p];
+        }
+    }
+    
+    return [NSArray arrayWithArray:playingPlayers];
+}
+
 
 #pragma mark Card Delegate
 
@@ -423,7 +517,7 @@
         current_player.moves ++;
         
         //and create a new one (if needed)r
-        int i = (current_player.index + 1)%players.count;
+        int i = ([current_player.index intValue] + 1)%[self playingPlayers].count;
         current_player = [players objectAtIndex:i];
         [current_player addMove];
         NSLog(@"%@'s turn now!", current_player.name);
@@ -479,7 +573,30 @@
 	
 }
 
-#pragma mark CoreData 
+#pragma mark CoreData
+
+- (Player*)newPlayerWithName:(NSString*)name index:(int)i {
+    
+	NSManagedObjectContext *context = [self managedObjectContext];
+    
+    Player *player = [self newPlayer];
+    
+    player.name     = name;
+    player.index    = [NSNumber numberWithInt:i];
+    player.date     = [NSDate date];
+    
+    NSLog(@"%@", player.date);
+    
+	//Effettuiamo il salvataggio gestendo eventuali errori
+	NSError *error;
+	if (![context save:&error]) {
+		NSLog(@"Errore durante il salvataggio: %@", [error localizedDescription]);
+	} else {
+        NSLog(@"Player created named: %@", name);
+    }
+    
+    return player;
+}
 
 - (void)addImageWithName:(NSString*)name data:(NSData*)imgdata {
     
@@ -567,6 +684,29 @@
     return array;
 }
 
+- (NSArray*)fetch:(NSString*)entityName order:(NSString*)order {
+    
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:order ascending:YES];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    
+    if ([array count] == 0) {
+        NSLog(@"Error = %@", error);
+    }
+    
+    return array;
+}
+
 - (NSArray*)fetchRecords {
     
     NSManagedObjectContext *context = [self managedObjectContext];
@@ -594,6 +734,13 @@
     
     return [NSEntityDescription
             insertNewObjectForEntityForName:@"Record" 
+            inManagedObjectContext:self.managedObjectContext];
+}
+
+- (Player*)newPlayer {
+    
+    return [NSEntityDescription
+            insertNewObjectForEntityForName:@"Player"
             inManagedObjectContext:self.managedObjectContext];
 }
 

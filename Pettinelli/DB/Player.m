@@ -2,15 +2,24 @@
 //  Player.m
 //  Pettinelli
 //
-//  Created by Andrea Barbon on 16/09/12.
+//  Created by Andrea Barbon on 18/09/12.
 //  Copyright (c) 2012 fractalsoft srl. All rights reserved.
 //
 
 #import "Player.h"
+#import "Record.h"
+
 
 @implementation Player
 
-@synthesize name, cards, moves_left;
+@dynamic index;
+@dynamic name;
+@dynamic victories;
+@dynamic records;
+@dynamic date;
+
+
+@synthesize cards, moves_left;
 
 - (id)init {
     
@@ -30,5 +39,6 @@
     
     moves_left += 3;
 }
+
 
 @end

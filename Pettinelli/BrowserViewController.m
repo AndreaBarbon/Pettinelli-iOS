@@ -47,6 +47,11 @@
         self.navigationItem.rightBarButtonItem = flipButton;
     }
         
+    [self checkReachability];
+}
+
+- (void)checkReachability {
+    
     if (url!=nil) {
         
         url = [NSString stringWithFormat:@"%@/%@", HOST, url];
@@ -54,12 +59,12 @@
         // allocate a reachability object
         Reachability* reach = [Reachability reachabilityWithHostname:HOST];
         
-        // set the blocks 
+        // set the blocks
         reach.reachableBlock = ^(Reachability*reach)
         {
             NSLog(@"REACHABLE!");
             dispatch_async(dispatch_get_main_queue(), ^{
-
+                
                 connected = YES;
                 if (firstTime) {
                     
@@ -73,8 +78,8 @@
         {
             NSLog(@"UNREACHABLE!");
             dispatch_async(dispatch_get_main_queue(), ^{
-
-
+                
+                
                 connected = NO;
                 if (firstTime) {
                     
@@ -85,7 +90,6 @@
         };
         
         [reach startNotifier];
-              
     }
 }
 
