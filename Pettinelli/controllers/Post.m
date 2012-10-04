@@ -32,34 +32,47 @@
     
     [super viewDidLoad];
     
+    webView.delegate = self;
     webView.scrollView.showsHorizontalScrollIndicator = NO;
     
     [titleLabel setText:title];
  
-    NSError *error;
-    NSString *filePath;
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-        filePath = [[NSBundle mainBundle] pathForResource:@"post iPad" ofType:@"txt"];  
-    } else {  
-        filePath = [[NSBundle mainBundle] pathForResource:@"post" ofType:@"txt"];   
-    }
-    
-    NSString *s =  [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&error];
-    
-    NSString *HTML = [NSString stringWithFormat:@"<body><h2>%@</h2><div class=\"image-div\"><img src=\"%@\"></img></div><p>%@</p></body>", title, image, body]; 
-    
-    
-    s = [NSString stringWithFormat:@"<head><style>%@</style></head>%@", s, HTML];
-    
-            
-    [webView loadHTMLString:s baseURL:[NSURL URLWithString:HOST]];
-    [imageView setImage:[UIImage imageNamed:@"Letter.png"]];
+    [self pushContentIn];    
     
     [sv setContentSize:CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height + 800)];
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
+}
+
+- (void)pushContentIn {
+    
+    [webView removeFromSuperview];
+    webView = nil;
+    webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    webView.delegate = self;
+    [self.view addSubview:webView];
+    
+    NSError *error;
+    NSString *filePath;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        filePath = [[NSBundle mainBundle] pathForResource:@"post iPad" ofType:@"txt"];
+    } else {
+        filePath = [[NSBundle mainBundle] pathForResource:@"post" ofType:@"txt"];
+    }
+    
+    
+    NSString *s =  [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&error];
+    
+    NSString *HTML = [NSString stringWithFormat:@"<body><h2>%@</h2><div class=\"image-div\"><img src=\"%@\"></img></div><p>%@</p></body>", title, image, body];
+    
+    
+    s = [NSString stringWithFormat:@"<head><style>%@</style></head>%@", s, HTML];
+    
+    
+    [webView loadHTMLString:s baseURL:[NSURL URLWithString:@""]];
+    webView.scalesPageToFit = NO;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -78,5 +91,59 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+
+#pragma mark -
+#pragma WebView delegate
+
+- (BOOL)webView:(UIWebView *)webView_ shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    
+    NSString *s = [request.URL absoluteString];
+    
+    NSLog(@"Request: %@", s);
+    
+    if (s.length == 0) {
+
+        self.navigationItem.title = self.date;
+        self.navigationItem.rightBarButtonItem = nil;
+
+    } else {
+        
+        webView.scalesPageToFit = YES;
+
+        self.navigationItem.title = @"Web";
+        
+        //Create the Reload button
+        UIBarButtonItem *flipButton = [[UIBarButtonItem alloc]
+                                       initWithTitle:@"Indietro"
+                                       style:UIBarButtonItemStyleBordered
+                                       target:self
+                                       action:@selector(back)];
+                
+        self.navigationItem.rightBarButtonItem = flipButton;
+        
+
+    }
+    
+    return YES;
+}
+
+- (void)back {
+    
+    if (webView.canGoBack) {
+
+        [webView goBack];
+
+    } else {
+        
+        webView.scalesPageToFit = NO;
+        [self pushContentIn];
+        self.navigationItem.title = self.date;
+        self.navigationItem.rightBarButtonItem = nil;
+
+    }
+}
+
 
 @end

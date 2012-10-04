@@ -123,7 +123,7 @@
         items = nil;
         loading = YES;
         [MBProgressHUD showHUDAddedTo:self.view animated:TRUE];
-        
+                
         if (connected) {
             [self sendRequest];
         } else {
@@ -222,7 +222,8 @@
     Post *post = [[Post alloc] init];
     post.title = [[items objectAtIndex:r] objectForKey:@"title"];
     post.body = [[items objectAtIndex:r] objectForKey:@"body"];
-    post.navigationItem.title = [self humanDate:[[items objectAtIndex:r] objectForKey:@"date"]];
+    post.date = [self humanDate:[[items objectAtIndex:r] objectForKey:@"date"]];
+    post.navigationItem.title = post.date;
     post.image = [[[[items objectAtIndex:r] objectForKey:@"image"] objectForKey:@"medium"] objectForKey:@"url"];
     
     [self.navigationController pushViewController:post animated:YES];

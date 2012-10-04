@@ -28,15 +28,22 @@
         
     }
     
-    if (difficulty.selectedSegmentIndex == 0) {
+    switch (difficulty.selectedSegmentIndex) {
+        case 0:
+            [delegate startGameWithCardNumber:4];
+            break;
+            
+        case 1:
+            [delegate startGameWithCardNumber:6];
+            break;
         
-        [delegate startGameWithCardNumber:4];
-    
-    } else {
-        
-        [delegate startGameWithCardNumber:6];
-    }
-    
+        case 2:
+            [delegate startGameWithCardNumber:8];
+            break;
+            
+        default:
+            break;
+    }    
 }
 
 - (IBAction)undo:(id)sender {
@@ -66,7 +73,10 @@
         [self.view addSubview:prop.view];
         float h = prop.view.bounds.size.height;
         float w = [[UIScreen mainScreen] bounds].size.width;
-        [prop setPlayerProperties:[delegate.players objectAtIndex:i]];
+        
+        Player *player = [delegate.players objectAtIndex:i];
+        player.index = [NSNumber numberWithInt:i];
+        [prop setPlayerProperties:player];
         prop.view.frame = CGRectMake(0, topMargin + i*h, w, h);
         
         [properties addObject:prop];

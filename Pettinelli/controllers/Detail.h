@@ -19,6 +19,7 @@
 
 @property(nonatomic, retain) NSString *image;
 @property(nonatomic, retain) NSString *body;
+@property(nonatomic, retain) NSString *date;
 
 
 

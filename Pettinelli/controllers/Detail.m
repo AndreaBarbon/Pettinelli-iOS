@@ -10,7 +10,7 @@
 
 @implementation Detail
 
-@synthesize title, image, body;
+@synthesize title, image, body, date;
     
 
 @end

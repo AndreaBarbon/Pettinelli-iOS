@@ -49,6 +49,8 @@
     
     NSMutableArray *savedPlayers = [[NSMutableArray alloc] initWithArray:[self fetch:@"Player" order:@"date"]];
     
+    NSLog(@"Count: %d", savedPlayers.count);
+    
     if (savedPlayers.count < MAX_PLAYERS) {
         
         for (int i=0; i<MAX_PLAYERS-savedPlayers.count; i++) {
@@ -66,6 +68,7 @@
         NSLog(@"Adding player");
         
         Player *player = [savedPlayers objectAtIndex:i];
+        NSLog(@"DONE");
         if (i==0) player.playing = YES;
         [players addObject:player];
     }
@@ -73,12 +76,18 @@
     [self menu:self];
 }
 
+- (void)reload {
+    
+    [self clean];
+    [super reload];
+}
+
 - (void)startGameWithCardNumber:(int)n {
     
     [self.managedObjectContext save:nil];
-    [self dismissModalViewControllerAnimated:YES];
     CARD_NUM = n;
     [self start];
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)undoGame {
@@ -87,7 +96,7 @@
 }
 
 - (void)handleOfflineSituation {
-    
+        
     DLog(@"I'm offline, and I'm a memory");
     photos = nil;
     photos = [[NSMutableArray alloc] initWithArray:[self fetchImages]];
@@ -155,9 +164,6 @@
 - (void)buildCards {
     
     NSLog(@"Building cards...");
-      
-    //Clean
-    [self clean];
         
     //Compute the size
     float card_size = [self computeCardSize];
@@ -186,9 +192,7 @@
 - (void)buildCardsOffline {
     
     NSLog(@"Building cards...");
-    
-    //Clean
-    [self clean];
+
     
     //Compute the size
     float card_size = [self computeCardSize];
@@ -432,7 +436,6 @@
         
         if ([self isThereTheImageNamed:currentImageUrl]) {
             
-            NSLog(@"It was there!");
             UIImage *image = [UIImage imageWithData:[self dataForImageNamed:currentImageUrl]];
             [(Card*)[cards objectAtIndex:imagesReady] setCardImage:image url:currentImageUrl];
             [self nextImage];
@@ -473,6 +476,7 @@
     
     NSLog(@"Moves left: %d", current_player.moves_left);
     
+    [flip_sound setCurrentTime:0.0];
     [flip_sound play];
     
     moves ++;
@@ -502,6 +506,8 @@
 
             [[flipped_cards objectAtIndex:0] setFounded:YES];
             [[flipped_cards objectAtIndex:1] setFounded:YES];
+            
+            [found_sound setCurrentTime:0.0];
             [found_sound play];
             [self checkForWinner];
             [self flopAllCards];
@@ -521,6 +527,7 @@
         current_player = [players objectAtIndex:i];
         [current_player addMove];
         NSLog(@"%@'s turn now!", current_player.name);
+        [flip_sound setCurrentTime:0.0];
         [flip_sound play];
     }
     

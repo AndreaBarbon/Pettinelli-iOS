@@ -263,7 +263,7 @@
 		B8960A0A15F17A4F0032D653 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B8960A0B15F17A4F0032D653 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		B8960A1115F17C170032D653 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		B8B62FAD1608B77600316280 /* Memory 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Memory 2.xcdatamodel"; sourceTree = "<group>"; };
+		B8B62FAD1608B77600316280 /* Memory 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Memory 2.xcdatamodel"; sourceTree = "<group>"; };
 		B8B62FAE1608BA5A00316280 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = DB/Player.h; sourceTree = "<group>"; };
 		B8B62FAF1608BA5A00316280 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Player.m; path = DB/Player.m; sourceTree = "<group>"; };
 		B8BD00B615F2DDC800F2E995 /* loading-1 (trascinato).tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "loading-1 (trascinato).tiff"; sourceTree = "<group>"; };
