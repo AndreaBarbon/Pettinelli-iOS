@@ -80,13 +80,16 @@
 						<string key="NSFrame">{{20, 403}, {280, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
+						<object class="NSColor" key="IBUITintColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MSAwIDAAA</bytes>
+						</object>
 						<string key="IBUINormalTitle">Annulla</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="39203507">
 							<int key="NSColorSpace">3</int>
@@ -99,6 +102,10 @@
 						<object class="NSColor" key="IBUINormalTitleShadowColor" id="806010933">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
+						</object>
+						<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="180338507">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">bg.png</string>
 						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">2</int>
@@ -123,6 +130,10 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
+						<object class="NSColor" key="IBUITintColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MCAwLjUwMTk2MDgxNCAxAA</bytes>
+						</object>
 						<string key="IBUINormalTitle">Gioca!</string>
 						<reference key="IBUIHighlightedTitleColor" ref="39203507"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
@@ -130,6 +141,7 @@
 							<bytes key="NSRGB">MC4xMDE3OTgwMTI5IDAuNDg0MzA1ODU4NiAwLjk3NDExMDAwNzMAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="806010933"/>
+						<reference key="IBUINormalBackgroundImage" ref="180338507"/>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">2</int>
 							<double key="pointSize">20</double>
@@ -308,6 +320,10 @@
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="NS.key.0">bg.png</string>
+			<string key="NS.object.0">{100, 100}</string>
+		</object>
 		<string key="IBCocoaTouchPluginVersion">1498</string>
 	</data>
 </archive>

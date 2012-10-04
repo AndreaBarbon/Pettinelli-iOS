@@ -41,25 +41,7 @@
     
     DLog(@"Creating cell %d", r);
 
-    
-    if (cell == nil) {
-        
-        NSString *nib;
-        float fontSize;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-            
-            nib = @"Cell_iPad";
-            fontSize = 26.0;
-            
-        }else{  
-            nib = @"Cell";
-            fontSize = 12.0;
-            
-        }
-		NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:nib owner:self options:nil];
-		cell = [topLevelObjects objectAtIndex:0];
-        
-    }
+    if (cell == nil) cell = [self newCustomCell];
     
     NSString *s;
     
@@ -94,15 +76,55 @@
 {    
     int r = indexPath.row;
     
-    Gallery *gallery = [[Gallery alloc] init];
-    gallery.title = [[self.items objectAtIndex:r] objectForKey:@"title"];
-    gallery.body = [[self.items objectAtIndex:r] objectForKey:@"body"];
-    gallery.images = [NSArray arrayWithArray:[[self.items objectAtIndex:r] objectForKey:@"photos"]];
     
-    [self.navigationController pushViewController:gallery animated:YES];
+    networkImages = [[NSArray alloc] initWithArray:[[self.items objectAtIndex:r] objectForKey:@"photos"]];
+
+    networkGallery = [[FGalleryViewController alloc] initWithPhotoSource:self];
+    [self.navigationController pushViewController:networkGallery animated:YES];
+    
+    
+    
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
     
+}
+
+
+#pragma mark - FGalleryViewControllerDelegate Methods
+
+
+- (int)numberOfPhotosForPhotoGallery:(FGalleryViewController *)gallery
+{
+    int num = [networkImages count];
+	return num;
+}
+
+
+- (FGalleryPhotoSourceType)photoGallery:(FGalleryViewController *)gallery sourceTypeForPhotoAtIndex:(NSUInteger)index
+{
+    return FGalleryPhotoSourceTypeNetwork;
+}
+
+
+- (NSString*)photoGallery:(FGalleryViewController *)gallery captionForPhotoAtIndex:(NSUInteger)index
+{
+//    NSString *caption;
+//    if( gallery == localGallery ) {
+//        caption = [localCaptions ;
+//    }
+//    else if( gallery == networkGallery ) {
+//        caption = [networkCaptions objectAtIndex:index];
+//    }
+	return @"";
+}
+
+
+- (NSString*)photoGallery:(FGalleryViewController*)gallery filePathForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
+    return [[[[networkImages objectAtIndex:index] objectForKey:@"photo_file"] objectForKey:@"medium"] objectForKey:@"url"];
+}
+
+- (NSString*)photoGallery:(FGalleryViewController *)gallery urlForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
     
+    return [[[[networkImages objectAtIndex:index] objectForKey:@"photo_file"] objectForKey:@"medium"] objectForKey:@"url"];
 }
 
 @end

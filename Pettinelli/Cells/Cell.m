@@ -10,13 +10,13 @@
 
 @implementation Cell
 
-@synthesize titleLabel, detailLabel, imageView;
+@synthesize titleLabel, detailLabel, imageView, bgView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+
     }
     return self;
 }

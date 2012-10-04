@@ -24,7 +24,19 @@
 {
     [super viewDidLoad];
     [self setLocations];
-    // Do any additional setup after loading the view from its nib.
+    
+    infoView.layer.masksToBounds = YES;
+    infoView.layer.cornerRadius = 10;
+    infoView.layer.shadowOffset = CGSizeMake(-2, 2);
+    infoView.layer.shadowRadius = 1.5;
+    infoView.layer.shadowOpacity = 0.3;
+
+    [map selectAnnotation:myAnnotation1 animated:NO];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [map selectAnnotation:myAnnotation1 animated:NO];
 }
 
 - (void)setLocations {
@@ -76,7 +88,7 @@
     
     region = [map regionThatFits:region];
     [map setRegion:region animated:YES];
-    
+        
 }
 
 #pragma mark -

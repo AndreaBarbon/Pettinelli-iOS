@@ -35,6 +35,7 @@
     else
         margin_top = 0;
     
+    board.backgroundColor = BG;
     
     int MAX_PLAYERS = 4;
     CARD_NUM = 4;   //Needs to be even

@@ -30,8 +30,11 @@
 {
     [super viewDidLoad];
     
+    tv.backgroundColor = BG;
+    
     firstTime = YES;
     [tv reloadData];
+
     
     if (!no_reloading) {
         
@@ -140,8 +143,8 @@
         [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         return 0;
     } else {
-        [tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-        return 1;        
+        [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        return 1;
     }
 }
 
@@ -150,15 +153,25 @@
     
     if (loading) {
         
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         return 0;
         
     } else {
         
-        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         return [items count];
     }
     
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 5;
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -167,24 +180,7 @@
 	static NSString *CellIdentifier = @"Cell";
 	Cell *cell = (Cell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (cell == nil) {
-        
-        NSString *nib;
-        float fontSize;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-            
-            nib = @"Cell_iPad";
-            fontSize = 26.0;
-            
-        }else{  
-            nib = @"Cell";
-            fontSize = 12.0;
-            
-        }
-		NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:nib owner:self options:nil];
-		cell = [topLevelObjects objectAtIndex:0];
-    
-    }
+    if (cell == nil) cell = [self newCustomCell];
     
     NSString *s;
 
@@ -202,14 +198,39 @@
     return cell;
 }
 
+- (Cell*)newCustomCell {
+    
+    NSString *nib;
+    float fontSize;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        
+        nib = @"Cell_iPad";
+        fontSize = 26.0;
+        
+    }else{
+        nib = @"Cell";
+        fontSize = 12.0;
+        
+    }
+    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:nib owner:self options:nil];
+    Cell *cell = [topLevelObjects objectAtIndex:0];
+
+    cell.bgView.layer.masksToBounds = NO;
+    cell.bgView.layer.cornerRadius = 8;
+    cell.bgView.layer.shadowOffset = CGSizeMake(-2, 2);
+    cell.bgView.layer.shadowRadius = 2.5;
+    cell.bgView.layer.shadowOpacity = 0.3;
+    return cell;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
         
-        return 180;
+        return 190;
         
     }else{  
-        return 80;
+        return 90;
     }
 }
 

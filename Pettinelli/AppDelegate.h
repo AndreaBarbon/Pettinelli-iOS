@@ -29,6 +29,8 @@
 #endif
 
 
+#define BG [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.png"]]
+
 
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>

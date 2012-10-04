@@ -37,6 +37,7 @@
 
 - (IBAction)reload;
 - (void)sendRequest;
+- (Cell*)newCustomCell;
 
 @end
 

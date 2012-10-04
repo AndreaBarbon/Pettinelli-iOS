@@ -7,7 +7,13 @@
 //
 
 #import "BrowserViewController.h"
+#import "FGalleryViewController.h"
 
-@interface Galleries : BrowserViewController
+@interface Galleries : BrowserViewController <FGalleryViewControllerDelegate> {
+    
+    FGalleryViewController *networkGallery;
+    NSArray *networkImages;
+
+}
 
 @end

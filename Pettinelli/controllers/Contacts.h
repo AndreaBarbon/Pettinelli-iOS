@@ -16,6 +16,7 @@
 @interface Contacts : PettinelliViewController <MKMapViewDelegate, MFMailComposeViewControllerDelegate> {
     
     IBOutlet MKMapView *map;
+    IBOutlet UIView *infoView;
     MyAnnotation* myAnnotation1;
 }
 
