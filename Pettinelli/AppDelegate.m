@@ -50,7 +50,7 @@
     
     ((Memory*)[self.tabBarController.viewControllers objectAtIndex:1]).managedObjectContext = self.managedObjectContext;
     
-    [self.window addSubview:self.tabBarController.view];
+    [self.window setRootViewController:self.tabBarController];
     
     [self.window makeKeyAndVisible];
     return YES;

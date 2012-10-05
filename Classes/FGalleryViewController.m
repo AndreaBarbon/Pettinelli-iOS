@@ -1193,6 +1193,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    
 	if([self.visibleViewController isKindOfClass:[FGalleryViewController class]]) 
 	{
         return YES;

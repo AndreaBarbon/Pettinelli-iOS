@@ -13,6 +13,7 @@
     
     FGalleryViewController *networkGallery;
     NSArray *networkImages;
+    NSString *photoSize;
 
 }
 

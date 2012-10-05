@@ -21,16 +21,16 @@
     BOOL loading;
     BOOL no_reloading;
     BOOL connected;
-    BOOL firstTime;
+    
     NSURLConnection *connectionJSON;
     
-
-
 }
 
 @property(nonatomic, retain) IBOutlet UITableView *tv;
 @property(nonatomic, retain) NSString *url;
 @property(nonatomic, retain) NSMutableArray *items;
+@property(nonatomic) BOOL shouldStartLater;
+@property(nonatomic) BOOL firstTime;
 
 #pragma mark -
 #pragma mark TOOLS
@@ -38,6 +38,7 @@
 - (IBAction)reload;
 - (void)sendRequest;
 - (Cell*)newCustomCell;
+- (void)checkReachability;
 
 @end
 

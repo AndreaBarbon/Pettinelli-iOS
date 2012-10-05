@@ -9,11 +9,14 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "BrowserViewController.h"
 
+@class WebBrowserController;
+
 @interface Detail : BrowserViewController <UIScrollViewDelegate> {
     
     IBOutlet UILabel *titleLabel;
     IBOutlet UIImageView *imageView;
     IBOutlet UIWebView *webView;
+    IBOutlet WebBrowserController *webBrowser;
     IBOutlet UIScrollView *sv;
 }
 

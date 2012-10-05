@@ -7,6 +7,7 @@
 //
 
 #import "Post.h"
+#import "WebBrowserController.h"
 
 @interface Post ()
 
@@ -34,6 +35,8 @@
     
     webView.delegate = self;
     webView.scrollView.showsHorizontalScrollIndicator = NO;
+
+
     
     [titleLabel setText:title];
  
@@ -47,11 +50,7 @@
 
 - (void)pushContentIn {
     
-    [webView removeFromSuperview];
-    webView = nil;
-    webView = [[UIWebView alloc] initWithFrame:self.view.frame];
-    webView.delegate = self;
-    [self.view addSubview:webView];
+    outsidePost = NO;
     
     NSError *error;
     NSString *filePath;
@@ -71,8 +70,9 @@
     s = [NSString stringWithFormat:@"<head><style>%@</style></head>%@", s, HTML];
     
     
-    [webView loadHTMLString:s baseURL:[NSURL URLWithString:@""]];
+    [webView loadHTMLString:s baseURL:[NSURL URLWithString:HOST]];
     webView.scalesPageToFit = NO;
+    
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -98,52 +98,76 @@
 
 - (BOOL)webView:(UIWebView *)webView_ shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
-    
-    NSString *s = [request.URL absoluteString];
-    
-    NSLog(@"Request: %@", s);
-    
-    if (s.length == 0) {
-
-        self.navigationItem.title = self.date;
-        self.navigationItem.rightBarButtonItem = nil;
-
+    if ([[request.URL absoluteString] isEqualToString:[HOST stringByAppendingString:@"/"]]) {
+        
+        return YES;
+        
     } else {
         
-        webView.scalesPageToFit = YES;
-
-        self.navigationItem.title = @"Web";
-        
-        //Create the Reload button
-        UIBarButtonItem *flipButton = [[UIBarButtonItem alloc]
-                                       initWithTitle:@"Indietro"
-                                       style:UIBarButtonItemStyleBordered
-                                       target:self
-                                       action:@selector(back)];
-                
-        self.navigationItem.rightBarButtonItem = flipButton;
-        
-
+        WebBrowserController *controller = [[WebBrowserController alloc] init];
+        controller.delegate = self;
+        [self presentModalViewController:controller animated:YES];
+        [controller.webView loadRequest:request];
+        return NO;
     }
+    
+    
+//    if (webView_ == webView) {
+//        
+//        NSString *s = [request.URL absoluteString];
+//        
+//        NSLog(@"Request: %@", s);
+//        
+//        if ([s isEqualToString:[HOST stringByAppendingFormat:@"/"]]) {
+//            
+//            self.navigationItem.title = self.date;
+//            self.navigationItem.rightBarButtonItem = nil;
+//            outsidePost = NO;
+//            
+//        } else {
+//            
+//            webBrowser = [[UIWebView alloc] initWithFrame:webView.frame];
+//            webBrowser.scalesPageToFit = YES;
+//            [webBrowser loadRequest:request];
+//            [self.view insertSubview:webBrowser belowSubview:webView];
+//
+//            outsidePost = YES;
+//            webView.hidden = YES;
+//            
+//            self.navigationItem.title = @"Web";
+//            
+//            //Create the Reload button
+//            UIBarButtonItem *flipButton = [[UIBarButtonItem alloc]
+//                                           initWithTitle:@"Indietro"
+//                                           style:UIBarButtonItemStyleBordered
+//                                           target:self
+//                                           action:@selector(back)];
+//            
+//            self.navigationItem.rightBarButtonItem = flipButton;
+//            
+//            
+//            return NO;
+//            
+//        }
+//    }
     
     return YES;
 }
 
-- (void)back {
-    
-    if (webView.canGoBack) {
-
-        [webView goBack];
-
-    } else {
-        
-        webView.scalesPageToFit = NO;
-        [self pushContentIn];
-        self.navigationItem.title = self.date;
-        self.navigationItem.rightBarButtonItem = nil;
-
-    }
-}
+//- (void)back {
+//    
+//    if (webBrowser.canGoBack) {
+//
+//        [webBrowser goBack];
+//
+//    } else {
+//        
+//        webView.hidden = NO;
+//        self.navigationItem.title = self.date;
+//        self.navigationItem.rightBarButtonItem = nil;
+//
+//    }
+//}
 
 
 @end

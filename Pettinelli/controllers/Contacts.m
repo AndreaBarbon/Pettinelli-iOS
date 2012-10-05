@@ -8,6 +8,7 @@
 
 #import "Contacts.h"
 #import "MyAnnotation.h"
+#import "WebBrowserController.h"
 
 #define EMAIL @"info@pettinellisportcenter.it"
 #define TEL @"041 985000"
@@ -31,7 +32,6 @@
     infoView.layer.shadowRadius = 1.5;
     infoView.layer.shadowOpacity = 0.3;
 
-    [map selectAnnotation:myAnnotation1 animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,7 +88,8 @@
     
     region = [map regionThatFits:region];
     [map setRegion:region animated:YES];
-        
+    [map selectAnnotation:myAnnotation1 animated:NO];
+    
 }
 
 #pragma mark -
@@ -101,6 +102,15 @@
 - (IBAction)fb:(id)sender {
 }
 - (IBAction)web:(id)sender {
+    
+    WebBrowserController *controller = [[WebBrowserController alloc] init];
+    
+    controller.delegate = self;
+    
+    [self presentModalViewController:controller animated:YES];
+
+    [controller.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:HOST]]];
+
 }
 - (IBAction)youtube:(id)sender {
 }    

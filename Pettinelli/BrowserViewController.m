@@ -15,7 +15,7 @@
 
 @implementation BrowserViewController
 
-@synthesize tv, url, items;
+@synthesize tv, url, items, firstTime, shouldStartLater;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,7 +30,7 @@
 {
     [super viewDidLoad];
     
-    tv.backgroundColor = BG;
+    tv.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     
     firstTime = YES;
     [tv reloadData];
@@ -50,7 +50,7 @@
         self.navigationItem.rightBarButtonItem = flipButton;
     }
         
-    [self checkReachability];
+    if (!shouldStartLater) [self checkReachability];
 }
 
 - (void)checkReachability {
@@ -58,6 +58,7 @@
     if (url!=nil) {
         
         url = [NSString stringWithFormat:@"%@/%@", HOST, url];
+        NSLog(@"URL = %@", url);
         
         // allocate a reachability object
         Reachability* reach = [Reachability reachabilityWithHostname:HOST];
@@ -82,7 +83,6 @@
             NSLog(@"UNREACHABLE!");
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                
                 connected = NO;
                 if (firstTime) {
                     
@@ -100,6 +100,7 @@
     
     NSLog(@"I'm offline!");
     [MBProgressHUD hideHUDForView:self.view animated:TRUE];
+    loading = NO;
 
 }
 
@@ -128,6 +129,7 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:TRUE];
                 
         if (connected) {
+            NSLog(@"Connected! Sending request...");
             [self sendRequest];
         } else {
             [self handleOfflineSituation];
@@ -215,10 +217,10 @@
     NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:nib owner:self options:nil];
     Cell *cell = [topLevelObjects objectAtIndex:0];
 
-    cell.bgView.layer.masksToBounds = NO;
+    cell.bgView.layer.masksToBounds = YES;
     cell.bgView.layer.cornerRadius = 8;
-    cell.bgView.layer.shadowOffset = CGSizeMake(-2, 2);
-    cell.bgView.layer.shadowRadius = 2.5;
+    cell.bgView.layer.shadowOffset = CGSizeMake(-20, 20);
+    cell.bgView.layer.shadowRadius = 25;
     cell.bgView.layer.shadowOpacity = 0.3;
     return cell;
 }
@@ -302,7 +304,6 @@
 - (void)connection:(NSURLConnection *)connection_ didFailWithError:(NSError *)error{
     
     NSLog(@"Connection error");
-    connected = NO;
     [NSThread sleepForTimeInterval:1];
     loading = NO;
     [MBProgressHUD hideHUDForView:self.view animated:YES];

@@ -29,6 +29,13 @@
     self.url = @"galleries.json";
 
     [super viewDidLoad];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+            photoSize = @"large";
+    } else {
+            photoSize = @"medium";
+    }
+    
 	// Do any additional setup after loading the view.
 }
 
@@ -119,12 +126,13 @@
 
 
 - (NSString*)photoGallery:(FGalleryViewController*)gallery filePathForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
-    return [[[[networkImages objectAtIndex:index] objectForKey:@"photo_file"] objectForKey:@"medium"] objectForKey:@"url"];
+        
+    return [[[[networkImages objectAtIndex:index] objectForKey:@"photo_file"] objectForKey:photoSize] objectForKey:@"url"];
 }
 
 - (NSString*)photoGallery:(FGalleryViewController *)gallery urlForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
     
-    return [[[[networkImages objectAtIndex:index] objectForKey:@"photo_file"] objectForKey:@"medium"] objectForKey:@"url"];
+    return [[[[networkImages objectAtIndex:index] objectForKey:@"photo_file"] objectForKey:photoSize] objectForKey:@"url"];
 }
 
 @end

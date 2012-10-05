@@ -12,7 +12,8 @@
 
 @interface Post : Detail <UIWebViewDelegate> {
     
-
+    BOOL outsidePost;
+    
 }
 
 

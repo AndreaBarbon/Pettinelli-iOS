@@ -19,6 +19,8 @@
 @dynamic date;
 
 
+@synthesize playing, score, moves;
+
 @synthesize cards, moves_left;
 
 - (id)init {

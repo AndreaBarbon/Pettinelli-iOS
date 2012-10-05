@@ -24,12 +24,14 @@
 @synthesize cards, photos, players;
 
 
-#define MARGIN_LEFT 5
+#define MARGIN_LEFT 0
 #define PADDING 1
 
 - (void)viewDidLoad
 {
 
+    newGameController = [[NewGame alloc] initWithDelegate:self];
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         margin_top = 0;
     else
@@ -45,16 +47,19 @@
     flipped_cards = [[NSMutableArray alloc] initWithCapacity:3];
     players =       [[NSMutableArray alloc] initWithCapacity:4];
 
+    self.shouldStartLater = YES;
     self.url=@"galleries.json";
+
+
     [super viewDidLoad];    [self loadSounds];
     
     NSMutableArray *savedPlayers = [[NSMutableArray alloc] initWithArray:[self fetch:@"Player" order:@"date"]];
     
     NSLog(@"Count: %d", savedPlayers.count);
     
-    if (savedPlayers.count < MAX_PLAYERS) {
+    if (savedPlayers.count == 0) {
         
-        for (int i=0; i<MAX_PLAYERS-savedPlayers.count; i++) {
+        for (int i=0; i<MAX_PLAYERS; i++) {
             
             NSString *name = [NSString stringWithFormat:@"Giocatore %d", i+1];
             Player *player = [self newPlayerWithName:name index:i];
@@ -64,7 +69,7 @@
     }
     
         
-    for (int i=0; i<MAX_PLAYERS; i++) {
+    for (int i=0; i<MIN(savedPlayers.count, MAX_PLAYERS); i++) {
         
         NSLog(@"Adding player");
         
@@ -74,11 +79,19 @@
         [players addObject:player];
     }
     
-    [self menu:self];
+    [self presentModalViewController:newGameController animated:NO];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [self updateCardPosition];
 }
 
 - (void)reload {
     
+    if (self.shouldStartLater) [self checkReachability];
+    self.shouldStartLater = NO;
     [self clean];
     [super reload];
 }
@@ -112,9 +125,9 @@
 }
 
 - (IBAction)menu:(id)sender {
-        
-    newGameController = [[NewGame alloc] initWithDelegate:self];
+    
     [self presentModalViewController:newGameController animated:YES];
+    
 }
 
 - (void)start {
@@ -140,12 +153,6 @@
     
     current_player = [players objectAtIndex:0];
     [current_player addMove];
-        
-    if (CARD_NUM == 4) {
-        [menu setSelectedSegmentIndex:0];
-    } else {
-        [menu setSelectedSegmentIndex:1];
-    }
     
     score = 0;
     [scoreLabel setText:[NSString stringWithFormat:@"Punteggio: %d", current_player.score]];
@@ -270,6 +277,10 @@
 
 - (void)updateCardPosition {
     
+    if (cards.count<CARD_NUM*CARD_NUM) {
+        return;
+    }
+    
     int card_size = [self computeCardSize];
     
     for (int i=0; i<CARD_NUM; i++) {
@@ -292,6 +303,7 @@
     
     loading = NO;
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self updateCardPosition];
 }
 
 - (void)parseJSON {
@@ -395,8 +407,6 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alertView show];
     
-    [menu setSelectedSegmentIndex:2];
-
 }
 
 - (void)flopAllCards {
@@ -410,7 +420,7 @@
 }
 
 - (void)nextImage {
-    
+        
     imagesReady ++;
     
     if (imagesReady>1) {
@@ -450,7 +460,6 @@
             connectionImage = [NSURLConnection connectionWithRequest:request delegate:self];
         }
     }
-    
 }
 
 - (NSArray*)playingPlayers {
