@@ -37,7 +37,7 @@
     else
         margin_top = 0;
     
-    board.backgroundColor = BG;
+    //board.backgroundColor = BG;
     
     int MAX_PLAYERS = 4;
     CARD_NUM = 4;   //Needs to be even
@@ -54,9 +54,7 @@
     [super viewDidLoad];    [self loadSounds];
     
     NSMutableArray *savedPlayers = [[NSMutableArray alloc] initWithArray:[self fetch:@"Player" order:@"date"]];
-    
-    NSLog(@"Count: %d", savedPlayers.count);
-    
+        
     if (savedPlayers.count == 0) {
         
         for (int i=0; i<MAX_PLAYERS; i++) {
@@ -70,11 +68,8 @@
     
         
     for (int i=0; i<MIN(savedPlayers.count, MAX_PLAYERS); i++) {
-        
-        NSLog(@"Adding player");
-        
+                
         Player *player = [savedPlayers objectAtIndex:i];
-        NSLog(@"DONE");
         if (i==0) player.playing = YES;
         [players addObject:player];
     }
@@ -90,10 +85,19 @@
 
 - (void)reload {
     
-    if (self.shouldStartLater) [self checkReachability];
-    self.shouldStartLater = NO;
+
     [self clean];
-    [super reload];
+    
+    if (self.shouldStartLater) {
+        
+        DLog(@"Checking reachbility for the first time");
+        [self checkReachability];
+        self.shouldStartLater = NO;
+        
+    } else {
+     
+        [super reload];
+    }    
 }
 
 - (void)startGameWithCardNumber:(int)n {
@@ -171,7 +175,7 @@
 
 - (void)buildCards {
     
-    NSLog(@"Building cards...");
+    DLog(@"Building cards...");
         
     //Compute the size
     float card_size = [self computeCardSize];
@@ -190,7 +194,7 @@
         }
     }
     
-    NSLog(@"Now let's download the images");
+    DLog(@"Now let's download the images");
     
     imagesReady = -1;
     [self nextImage];
@@ -199,7 +203,7 @@
 
 - (void)buildCardsOffline {
     
-    NSLog(@"Building cards...");
+    DLog(@"Building cards offline...");
 
     
     //Compute the size
@@ -222,7 +226,7 @@
         }
     }
     
-    NSLog(@"Now let's draw the cards");
+    DLog(@"Now let's draw the cards");
     
     [self drawCards];
     
@@ -453,7 +457,7 @@
             
         } else {
             
-            NSLog(@"Downloading new image: %@", currentImageUrl);
+            DLog(@"Downloading new image: %@", currentImageUrl);
             
             NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:currentImageUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:2.0];
             
@@ -483,8 +487,6 @@
 - (void)cardFlipped:(Card *)card {
     
     DLog(@"FLIPPED! \n CARD URL: \n, %@ \n\n", card.imageURL);
-    
-    NSLog(@"Moves left: %d", current_player.moves_left);
     
     [flip_sound setCurrentTime:0.0];
     [flip_sound play];
@@ -536,7 +538,7 @@
         int i = ([current_player.index intValue] + 1)%[self playingPlayers].count;
         current_player = [players objectAtIndex:i];
         [current_player addMove];
-        NSLog(@"%@'s turn now!", current_player.name);
+        DLog(@"%@'s turn now!", current_player.name);
         [flip_sound setCurrentTime:0.0];
         [flip_sound play];
     }
@@ -584,7 +586,7 @@
         
     } else {
 
-        NSLog(@"Json downloaded, now let's parse it");
+        DLog(@"Json downloaded, now let's parse it");
         [NSThread detachNewThreadSelector:@selector(parseJSON) toTarget:self withObject:nil];
     }
 	
@@ -602,14 +604,12 @@
     player.index    = [NSNumber numberWithInt:i];
     player.date     = [NSDate date];
     
-    NSLog(@"%@", player.date);
-    
 	//Effettuiamo il salvataggio gestendo eventuali errori
 	NSError *error;
 	if (![context save:&error]) {
 		NSLog(@"Errore durante il salvataggio: %@", [error localizedDescription]);
 	} else {
-        NSLog(@"Player created named: %@", name);
+        DLog(@"Player created named: %@", name);
     }
     
     return player;
@@ -631,7 +631,7 @@
 	if (![context save:&error]) {
 		NSLog(@"Errore durante il salvataggio: %@", [error localizedDescription]);
 	} else {
-        NSLog(@"Created image named: %@", name);
+        DLog(@"Created image named: %@", name);
     }
 }
 

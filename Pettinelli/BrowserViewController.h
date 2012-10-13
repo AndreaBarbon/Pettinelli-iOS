@@ -21,6 +21,7 @@
     BOOL loading;
     BOOL no_reloading;
     BOOL connected;
+    NSString *imageSize;
     
     NSURLConnection *connectionJSON;
     

@@ -35,6 +35,14 @@
     firstTime = YES;
     [tv reloadData];
 
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        
+        imageSize = @"medium";
+        
+    } else {
+     
+        imageSize = @"thumb";
+    }
     
     if (!no_reloading) {
         
@@ -98,7 +106,7 @@
 
 - (void)handleOfflineSituation {
     
-    NSLog(@"I'm offline!");
+    NSLog(@"I'm offline!, and I'm the super class");
     [MBProgressHUD hideHUDForView:self.view animated:TRUE];
     loading = NO;
 
@@ -191,8 +199,10 @@
 
     s = [[items objectAtIndex:r] objectForKey:@"title"];
     [cell.titleLabel setText:s];
+    
+    
 
-    s = [[[[items objectAtIndex:r] objectForKey:@"image"] objectForKey:@"thumb"] objectForKey:@"url"];
+    s = [[[[items objectAtIndex:r] objectForKey:@"image"] objectForKey:imageSize] objectForKey:@"url"];
 
     [cell.imageView setImageWithURL:[NSURL URLWithString:s]
                placeholderImage:[UIImage imageNamed:@"Pettinelli.png"]];
@@ -247,7 +257,11 @@
     post.body = [[items objectAtIndex:r] objectForKey:@"body"];
     post.date = [self humanDate:[[items objectAtIndex:r] objectForKey:@"date"]];
     post.navigationItem.title = post.date;
-    post.image = [[[[items objectAtIndex:r] objectForKey:@"image"] objectForKey:@"medium"] objectForKey:@"url"];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        post.image = [[[[items objectAtIndex:r] objectForKey:@"image"] objectForKey:@"large"] objectForKey:@"url"];
+    } else {
+        post.image = [[[[items objectAtIndex:r] objectForKey:@"image"] objectForKey:@"medium"] objectForKey:@"url"];
+    }
     
     [self.navigationController pushViewController:post animated:YES];
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];

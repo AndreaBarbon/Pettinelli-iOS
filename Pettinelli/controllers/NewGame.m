@@ -19,6 +19,9 @@
 @synthesize delegate, properties, difficulty;
 
 - (IBAction)startGame:(id)sender {
+        
+    NSMutableArray *nonPlayingPlayers = [[NSMutableArray alloc] initWithCapacity:delegate.players.count];
+    NSMutableArray *playingPlayers = [[NSMutableArray alloc] initWithCapacity:delegate.players.count];
     
     for (int i=0; i<delegate.players.count; i++) {
         
@@ -26,7 +29,29 @@
         player.name = [[properties objectAtIndex:i] nameField].text;
         player.playing = [[properties objectAtIndex:i] playingSwitch].on;
         
+        if (player.playing) {
+            
+            [playingPlayers addObject:player];
+                        
+        } else {
+            
+            [nonPlayingPlayers addObject:player];
+        }
     }
+    
+    [delegate.players removeAllObjects];
+    [delegate.players addObjectsFromArray:playingPlayers];
+    [delegate.players addObjectsFromArray:nonPlayingPlayers];
+    
+    int i = 0;
+    for (Player *player in delegate.players) {
+        
+        player.index = [NSNumber numberWithInt:i];
+        NSLog(@"Name: %@,  index = %d",  player.name, player.index.intValue);
+        i++;
+        
+    }
+    
     
     switch (difficulty.selectedSegmentIndex) {
         case 0:
@@ -65,20 +90,25 @@
     [super viewDidLoad];
     
     properties = [[NSMutableArray alloc] initWithCapacity:delegate.players.count];
+//      float w = [[UIScreen mainScreen] bounds].size.width;
+
     
     for (int i=0; i<4; i++) {
         PlayerProperties *prop = [[PlayerProperties alloc] init];
+
         
-        float topMargin = 80.0;
         [self.view addSubview:prop.view];
         float h = prop.view.bounds.size.height;
-        float w = [[UIScreen mainScreen] bounds].size.width;
+        float topMargin = 110.0;
+        prop.view.center = CGPointMake(prop.view.center.x, topMargin + i*h);
+        
+        
         
         Player *player = [delegate.players objectAtIndex:i];
         player.index = [NSNumber numberWithInt:i];
         [prop setPlayerProperties:player];
-        prop.view.frame = CGRectMake(0, topMargin + i*h, w, h);
-        
+
+
         [properties addObject:prop];
     }
 }
